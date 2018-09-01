@@ -1,0 +1,12 @@
+export const NAVIGATION_CHANGE = 'navigation-change';
+export const NAVIGATION_BACK = 'navigation-back';
+export const LOADING = 'loading';
+export const AUTH_USER = 'auth-user';
+export const UNAUTH_USER = 'unauth-user';
+export const AUTH_ERROR = 'auth-error';
+export const FETCH_USER = 'fetch-user';
+export const FETCH_RECIPES = 'fetch-recipes';
+export const FETCH_RECIPE = 'fetch-recipe';
+export const SEARCH_RECIPES = 'search-recipes';
+export const RESET_SEARCH = 'reset-search';
+export const LOADING_FONT = 'loading-font';
