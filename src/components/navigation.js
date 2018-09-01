@@ -21,9 +21,9 @@ class Navigation extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    const { navigation, navigateBack, fontLoader } = this.props;
+  componentDidMount() {
 		BackHandler.addEventListener('hardwareBackPress', () => {
+      const { navigation, navigateBack, fontLoader } = this.props;
 			if(navigation.history.length) {
 				navigateBack();
 				return true;
