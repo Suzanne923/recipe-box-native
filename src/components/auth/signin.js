@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: "OpenSans-Bold",
     color: "white",
     textAlign: "center",
     marginTop: 40,
@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
     height: 40,
     paddingLeft: 15,
     fontSize: 16,
+    fontFamily: "OpenSans-Regular",
     color: "#fff",
     width: DEVICE_WIDTH - 40,
     backgroundColor: "rgba(150, 150, 150, 0.6)",
@@ -130,6 +131,7 @@ const styles = StyleSheet.create({
   text: {
     marginTop: 5,
     color: "#eee",
+    fontFamily: "OpenSans-Regular",
     textAlign: "center"
   },
   button: {

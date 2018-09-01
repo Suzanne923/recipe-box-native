@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
   title: {
     padding: 10,
-    fontFamily: 'open-sans-semi-bold',
+    fontFamily: 'OpenSans-SemiBold',
     fontSize: 26,
     color: "#333"
   },

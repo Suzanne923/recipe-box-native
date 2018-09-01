@@ -38,7 +38,7 @@ class Search extends React.Component {
 
     return (searchResults.length) ? (
       <View>
-        <FontText style={styles.text}>Results for {`'${query}'`}:</FontText>
+        <FontText style={styles.text}>Results for <FontText style={{ fontFamily: "OpenSans-Italic"}}>{`'${query}'`}</FontText>:</FontText>
         { searchResults.map((result, i) => {
           const tagsStr = result.tags ? result.tags.join(', ') : null;
           const ingredientsStr = result.ingredients ? result.ingredients.join(', ') : null;
@@ -155,8 +155,8 @@ const styles = StyleSheet.create({
   text: {
     marginTop: 5,
     marginLeft: 10,
-    fontFamily: "open-sans-regular",
-    fontSize: 16,
+    fontFamily: "OpenSans-Regular",
+    fontSize: 18,
     color: "#333"
   }
 });

@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     alignSelf: "stretch"
   },
   icon: {
-    marginLeft: 15,
-    marginRight: 15
+    marginLeft: 20,
+    marginRight: 20
   }
 });

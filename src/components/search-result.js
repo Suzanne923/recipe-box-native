@@ -5,7 +5,7 @@ import FontText from './font-text';
 const SearchResult = (props) => (
   <View style={styles.container}>
     <FontText style={styles.text}>
-      <FontText style={[styles.text, {fontFamily: "open-sans-bold"}]}>{`${props.i + 1}. ${props.title} `}</FontText>
+      <FontText style={[styles.text, {fontFamily: "OpenSans-Bold"}]}>{`${props.i + 1}. ${props.title} `}</FontText>
       <FontText>{props.tags} {props.ingredients}</FontText>
     </FontText>
   </View>
@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#333",
-    fontFamily: "open-sans-regular",
-    fontSize: 16,
+    fontFamily: "OpenSans-Regular",
+    fontSize: 18,
     backgroundColor: "white",
   }
 });

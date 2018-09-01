@@ -44,9 +44,9 @@ class ViewRecipe extends React.Component {
       <View>
         { isLoading ? <FontText>Loading recipe...</FontText> : (
           <View style={styles.container}>
-            <FontText style={styles.title}>{recipe.title}</FontText>
-            <View style={{flexDirection: "row"}}>{tags}</View>
             <Image style={styles.image} source={image} />
+              <FontText style={styles.title}>{recipe.title}</FontText>
+              <View style={{flexDirection: "row"}}>{tags}</View>
             <FontText style={styles.subTitle}>Ingredients:</FontText>
             <View>{ingredients}</View>
             <View
@@ -82,29 +82,29 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontFamily: "open-sans-semi-bold",
-    color: "#333"
+    fontFamily: "OpenSans-SemiBold",
+    color: "#333",
+    margin: 5
   },
   subTitle: {
     color: "#333",
-    fontFamily: "open-sans-bold",
+    fontFamily: "OpenSans-Bold",
     fontSize: 20,
     fontWeight: "bold",
-    marginTop: 10
+    marginTop: 20
   },
   imageContainer: {
     height: 250
   },
   image: {
     height: 250,
-    marginTop: 5,
     alignSelf: "stretch",
     flex: 1,
   },
   text: {
-    fontFamily: "open-sans-regular",
+    fontFamily: "OpenSans-Regular",
     color: "#333",
     paddingTop: 10,
-    fontSize: 16
+    fontSize: 18
   }
 });

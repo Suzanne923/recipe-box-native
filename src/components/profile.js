@@ -48,23 +48,23 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: "OpenSans-Bold",
     color: "white",
     textAlign: "center",
     marginTop: 30,
   },
   profileInfo: {
-    flex: 1,
     backgroundColor: "white"
   },
   profileItem: {
     flexDirection: "column",
-    padding: 15
+    padding: 11,
+    paddingTop: 14
   },
   text: {
     width: DEVICE_WIDTH,
     fontSize: 16,
-    fontFamily: "open-sans-regular",
+    fontFamily: "OpenSans-Regular",
     color: "#333"
   }
 });

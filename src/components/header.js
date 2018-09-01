@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: "#fff",
-    fontFamily: 'open-sans-semi-bold',
+    fontFamily: 'OpenSans-SemiBold',
     textAlign: "center",
     fontSize: 30,
     marginLeft: 5

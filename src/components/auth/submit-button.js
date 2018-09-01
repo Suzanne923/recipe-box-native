@@ -104,7 +104,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: "white"
+    color: "white",
+    fontFamily: "OpenSans-Regular"
   },
   image: {
     width: 30,
