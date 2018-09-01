@@ -12,10 +12,10 @@ const initialState = {
 export default function(state = initialState, action) {
   switch(action.type) {
     case NAVIGATION_CHANGE:
-      return { ...state, history: [...state.history, state.screen], screen: action.payload, navProp: action.navProp };
+      newHistory = [ ...state.history, state.screen];
+      return { ...state, history: newHistory, screen: action.payload, navProp: action.navProp };
     case NAVIGATION_BACK:
-      const lastScreen = state.history[state.history.length - 1];
-      return { ...state, screen: state.history.pop(), history: state.history.slice(0, -1) };
+      return { ...state, screen: state.history[state.history.length - 1], history: state.history.slice(0, -1) };
     default:
       return state;
   }

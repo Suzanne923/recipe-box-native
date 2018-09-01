@@ -23,7 +23,7 @@ const DEVICE_WIDTH = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: 10,
+    marginBottom: 5,
     width: DEVICE_WIDTH,
     alignItems: "center",
     justifyContent: "center",
