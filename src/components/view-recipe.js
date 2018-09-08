@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import Dimensions from 'Dimensions';
 import * as actions from '../actions';
 
+import Loading from './loading';
 import placeholder from '../images/placeholder.png';
 import Tag from './tag';
 import screens from '../screens';
@@ -42,7 +43,7 @@ class ViewRecipe extends React.Component {
 
     return (
       <View>
-        { isLoading ? <FontText>Loading recipe...</FontText> : (
+        { isLoading ? <Loading /> : (
           <View style={styles.container}>
             <Image style={styles.image} source={image} />
               <FontText style={styles.title}>{recipe.title}</FontText>

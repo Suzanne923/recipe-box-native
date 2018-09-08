@@ -5,6 +5,7 @@ import { AsyncStorage } from "react-native";
 import * as actions from '../actions';
 import screens from '../screens';
 
+import Loading from './loading';
 import Home from './home';
 import Signin from './auth/signin';
 import Signup from './auth/signup';
@@ -23,10 +24,10 @@ class Navigation extends React.Component {
   }
 
   async componentWillMount() {
-    const { fetchUser } = this.props;
+    const { fetchUser, navigate } = this.props;
     const token = await AsyncStorage.getItem('recipeToken');
     if (token) {
-      fetchUser(token);
+      fetchUser(token, () => { navigate(screens.HOME) });
     }
   }
 
@@ -42,7 +43,7 @@ class Navigation extends React.Component {
   }
 
   getScreen(screen) {
-    const { authenticated } = this.props;
+    const { loading } = this.props;
     const { id } = this.state;
 
     switch(screen) {
@@ -59,7 +60,7 @@ class Navigation extends React.Component {
       case screens.SIGNUP:
         return <Signup />;
       case screens.DEFAULT:
-        return authenticated ? <Home setRecipe={(id) => {this.setState({ id })}} /> : <Signin />;
+        return <Loading />;
     }
   }
 
@@ -80,7 +81,8 @@ class Navigation extends React.Component {
 
 const mapStateToProps = (state) => ({
   navigation: state.nav,
-  authenticated: state.auth.authenticated
+  authenticated: state.auth.authenticated,
+  loading: state.auth.loading
 });
 
 export default connect(mapStateToProps, actions)(Navigation);

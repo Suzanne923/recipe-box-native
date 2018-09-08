@@ -29,7 +29,7 @@ export const navigateBack = () => ({
   type: NAVIGATION_BACK
 });
 
-export function signinUser({ email, password }) {
+export function signinUser({ email, password }, callback) {
   return async (dispatch) => {
     dispatch({
       type: LOADING
@@ -43,6 +43,7 @@ export function signinUser({ email, password }) {
         token
       });
       await AsyncStorage.setItem('recipeToken', token);
+      callback();
     } catch(e) {
       console.log(e);
       dispatch(authError('Bad Login Info'));
@@ -72,8 +73,11 @@ export function signupUser({ email, password }, callback) {
   }
 }
 
-export function fetchUser(token) {
+export function fetchUser(token, callback) {
   return async (dispatch) => {
+    dispatch({
+      type: LOADING
+    });
     try {
       const response = await axios.get(`${ROOT_URL}/authenticate`, { headers: { authorization: token } });
       dispatch({
@@ -81,6 +85,7 @@ export function fetchUser(token) {
         email: response.data.email,
         token
       });
+      callback();
     } catch(e) {
       console.log(e);
     }

@@ -58,10 +58,10 @@ class Signin extends React.Component {
   }
 
   handleSubmit = () => {
-    const { signinUser } = this.props;
+    const { signinUser, navigate } = this.props;
     const { email, password } = this.state;
 
-    signinUser({ email, password });
+    signinUser({ email, password }, () => { navigate(screens.HOME) });
   }
 
   render() {

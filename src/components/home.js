@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import * as actions from '../actions';
 import screens from '../screens';
 
+import Loading from './loading';
 import RecipeItem from './recipe-item';
 
 class Home extends React.Component {
@@ -28,7 +29,7 @@ class Home extends React.Component {
 
     return (
       <View style={styles.container}>
-        { isLoading ? <Text>Loading recipes...</Text> : null }
+        { isLoading ? <Loading /> : null }
         {recipeList}
       </View>
     );
