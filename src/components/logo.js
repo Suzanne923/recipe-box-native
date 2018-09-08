@@ -15,6 +15,7 @@ const Logo = () => {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 50,
     flex: 3,
     alignItems: "center",
     justifyContent: "center"

@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, TouchableHighlight, Button } from 'react-native';
-import Dimensions from 'Dimensions';
 import screens from '../../screens';
 import * as actions from '../../actions';
 
+import AuthMenu from './auth-menu';
 import Logo from '../logo';
 import Input from '../input';
 import Submitbutton from './submit-button';
@@ -65,14 +65,14 @@ class Signin extends React.Component {
   }
 
   render() {
-    const { isLoading, navigate } = this.props;
+    const { isLoading, navigate, screen } = this.props;
     const { error } = this.state;
 
     return (
       <View>
+        <AuthMenu screen={screen} navigate={navigate} />
         <Logo />
-        <Text style={styles.title}>SIGN IN</Text>
-          <KeyboardAvoidingView>
+          <KeyboardAvoidingView style={{alignSelf: "stretch"}}>
             <Input
               inputStyle={[styles.input, error.email ? { borderColor: "red", borderWidth: 2 } : null]}
               placeholder="Email"
@@ -96,32 +96,22 @@ class Signin extends React.Component {
               validate={this.validate}
               handleSubmit={this.handleSubmit}
             />
-            <Text
-              onPress={() => navigate(screens.SIGNUP)}
-              style={styles.text}
-            >Create Account</Text>
           </KeyboardAvoidingView>
       </View>
     );
   }
 }
 
-const mapStateToProps = (state) => ({ isLoading: state.auth.isLoading });
+const mapStateToProps = (state) => ({
+  isLoading: state.auth.isLoading,
+  screen: state.nav.screen
+});
 
 export default connect(mapStateToProps, actions)(Signin);
-
-const DEVICE_WIDTH = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  title: {
-    fontSize: 20,
-    fontFamily: "OpenSans-Bold",
-    color: "white",
-    textAlign: "center",
-    marginTop: 40,
   },
   input: {
     marginTop: 10,
@@ -130,7 +120,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "OpenSans-Regular",
     color: "#fff",
-    width: DEVICE_WIDTH - 40,
+    alignSelf: "stretch",
+    marginLeft: 20,
+    marginRight: 20,
     backgroundColor: "rgba(150, 150, 150, 0.6)",
     borderRadius: 20
   },
@@ -139,13 +131,5 @@ const styles = StyleSheet.create({
     color: "#eee",
     fontFamily: "OpenSans-Regular",
     textAlign: "center"
-  },
-  button: {
-    marginTop: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#d84242',
-    borderRadius: 20,
-    padding: 9
   }
 });
