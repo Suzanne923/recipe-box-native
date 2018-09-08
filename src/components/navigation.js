@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View, BackHandler, ScrollView } from 'react-native';
+import { AsyncStorage } from "react-native";
 import * as actions from '../actions';
 import screens from '../screens';
 
@@ -18,6 +19,14 @@ class Navigation extends React.Component {
     super();
     this.state = {
       id: null
+    }
+  }
+
+  async componentWillMount() {
+    const { fetchUser } = this.props;
+    const token = await AsyncStorage.getItem('recipeToken');
+    if (token) {
+      fetchUser(token);
     }
   }
 

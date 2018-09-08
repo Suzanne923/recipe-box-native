@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { AsyncStorage } from "react-native";
 import {
   NAVIGATION_CHANGE,
   NAVIGATION_BACK,
@@ -35,11 +36,13 @@ export function signinUser({ email, password }) {
     });
     try {
       const response = await axios.post(`${ROOT_URL}/signin`, { email, password });
+      const token = response.data.token;
       dispatch({
         type: AUTH_USER,
         email,
-        token: response.data.token
+        token
       });
+      await AsyncStorage.setItem('recipeToken', token);
     } catch(e) {
       console.log(e);
       dispatch(authError('Bad Login Info'));
@@ -54,11 +57,13 @@ export function signupUser({ email, password }, callback) {
     });
     try {
       const response = await axios.post(`${ROOT_URL}/signup`, { email, password });
+      const token = response.data.token;
       dispatch({
         type: AUTH_USER,
         email,
-        token: response.data.token
+        token
       });
+      await AsyncStorage.setItem('recipeToken', token);
       callback();
     } catch(e) {
       console.log(e);
@@ -67,7 +72,23 @@ export function signupUser({ email, password }, callback) {
   }
 }
 
-export function logoutUser() {
+export function fetchUser(token) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${ROOT_URL}/authenticate`, { headers: { authorization: token } });
+      dispatch({
+        type: AUTH_USER,
+        email: response.data.email,
+        token
+      });
+    } catch(e) {
+      console.log(e);
+    }
+  }
+}
+
+export async function logoutUser() {
+  await AsyncStorage.removeItem('recipeToken');
   return { type: UNAUTH_USER };
 }
 
