@@ -42,7 +42,7 @@ class Navigation extends React.Component {
   }
 
   getScreen(screen) {
-    const { authenticated, isLoading, signinUser, signupUser, navigate } = this.props;
+    const { authenticated } = this.props;
     const { id } = this.state;
 
     switch(screen) {
@@ -55,11 +55,11 @@ class Navigation extends React.Component {
       case screens.SEARCH:
         return <Search setRecipe={(id) => {this.setState({ id })}} />;
       case screens.SIGNIN:
-        return <Signin onNavigate={navigate} onSubmit={signinUser} />;
+        return <Signin />;
       case screens.SIGNUP:
-        return <Signup isLoading={isLoading} onSubmit={signupUser} onNavigate={navigate} />;
+        return <Signup />;
       case screens.DEFAULT:
-        return authenticated ? <Home setRecipe={(id) => {this.setState({ id })}} /> : <Signin isLoading={isLoading} onSubmit={signinUser} onNavigate={navigate} />;
+        return authenticated ? <Home setRecipe={(id) => {this.setState({ id })}} /> : <Signin />;
     }
   }
 
@@ -80,7 +80,6 @@ class Navigation extends React.Component {
 
 const mapStateToProps = (state) => ({
   navigation: state.nav,
-  isLoading: state.auth.isLoading,
   authenticated: state.auth.authenticated
 });
 

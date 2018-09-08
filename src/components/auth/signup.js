@@ -1,14 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, Button } from 'react-native';
 import Dimensions from 'Dimensions';
 import screens from '../../screens';
+import * as actions from '../../actions';
 
 import Logo from '../logo';
 import Input from '../input';
 import Submitbutton from './submit-button';
 import ErrorMessage from './error-message';
 
-export default class Signup extends React.Component {
+class Signup extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -44,10 +46,10 @@ export default class Signup extends React.Component {
   }
 
   handleSubmit = () => {
-    const { isLoading, onSubmit, onNavigate } = this.props;
+    const { isLoading, signupUser, navigate } = this.props;
     const { email, password } = this.state;
 
-    onSubmit({ email, password }, () => { onNavigate(screens.HOME) });
+    signupUser({ email, password }, () => { navigate(screens.HOME) });
   }
 
   render() {
@@ -99,6 +101,10 @@ export default class Signup extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({ isLoading: state.auth.isLoading });
+
+export default connect(mapStateToProps, actions)(Signup);
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 

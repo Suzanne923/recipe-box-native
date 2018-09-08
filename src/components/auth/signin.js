@@ -1,14 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, TouchableHighlight, Button } from 'react-native';
 import Dimensions from 'Dimensions';
 import screens from '../../screens';
+import * as actions from '../../actions';
 
 import Logo from '../logo';
 import Input from '../input';
 import Submitbutton from './submit-button';
 import ErrorMessage from './error-message';
 
-export default class Signin extends React.Component {
+class Signin extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -56,14 +58,14 @@ export default class Signin extends React.Component {
   }
 
   handleSubmit = () => {
-    const { onSubmit } = this.props;
+    const { signinUser } = this.props;
     const { email, password } = this.state;
 
-    onSubmit({ email, password });
+    signinUser({ email, password });
   }
 
   render() {
-    const { isLoading, onNavigate } = this.props;
+    const { isLoading, navigate } = this.props;
     const { error } = this.state;
 
     return (
@@ -95,7 +97,7 @@ export default class Signin extends React.Component {
               handleSubmit={this.handleSubmit}
             />
             <Text
-              onPress={() => onNavigate(screens.SIGNUP)}
+              onPress={() => navigate(screens.SIGNUP)}
               style={styles.text}
             >Create Account</Text>
           </KeyboardAvoidingView>
@@ -103,6 +105,10 @@ export default class Signin extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({ isLoading: state.auth.isLoading });
+
+export default connect(mapStateToProps, actions)(Signin);
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
 
