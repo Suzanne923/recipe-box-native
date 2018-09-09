@@ -1,10 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import FontText from './font-text';
 
 const Tag = (props) => (
   <View style={styles.container}>
-    <FontText style={styles.text}>{props.tag}</FontText>
+    <Text style={styles.text}>{props.tag}</Text>
   </View>
 );
 

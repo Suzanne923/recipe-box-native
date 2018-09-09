@@ -1,13 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View, ScrollView, Text } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, TouchableHighlight, Text } from 'react-native';
 import Dimensions from 'Dimensions';
 import * as actions from '../actions';
 import screens from '../screens';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import FontText from './font-text';
 
 class Profile extends React.Component {
+  handleSignout = () => {
+    const { signoutUser, navigate } = this.props;
+
+    signoutUser(() => {navigate(screens.SIGNIN)});
+  }
+
   render() {
     const { navigate, email } = this.props;
 
@@ -19,9 +24,19 @@ class Profile extends React.Component {
         </View>
         <ScrollView style={styles.profileInfo}>
           <View style={styles.profileItem}>
-            <Text style={[styles.text, { color: "#a92b00"}]}>Email:</Text>
-            <FontText style={styles.text}>{email}</FontText>
+            <Text style={[styles.text, {color: "#a92b00"}]}>Email:</Text>
+            <Text style={styles.text}>{email}</Text>
           </View>
+          <TouchableHighlight
+            onPress={this.handleSignout}
+            underlayColor="#ccc" activeOpacity={1}
+            style={styles.profileItem}
+          >
+            <View style={{flexDirection: "row", alignItems: "center"}}>
+              <FontAwesome name="sign-out" size={16} color="#a92b00" />
+              <Text style={[styles.text, {marginLeft: 5}]}>Sign Out</Text>
+            </View>
+          </TouchableHighlight>
         </ScrollView>
       </View>
     );
@@ -58,8 +73,9 @@ const styles = StyleSheet.create({
   },
   profileItem: {
     flexDirection: "column",
-    padding: 11,
-    paddingTop: 14
+    padding: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc"
   },
   text: {
     width: DEVICE_WIDTH,

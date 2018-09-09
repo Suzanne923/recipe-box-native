@@ -1,18 +1,17 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import Dimensions from 'Dimensions';
-import FontText from './font-text';
 
 const RecipeItem = ({ recipe, onPress }) => (
   <View style={styles.container}>
-    <TouchableHighlight
+    <TouchableOpacity
       onPress={() => {onPress()}}
       style={styles.imageContainer}
       underlayColor="#eee"
     >
       <Image style={styles.image} source={{uri: recipe.image_url}} />
-    </TouchableHighlight>
-    <FontText style={styles.title}>{recipe.title}</FontText>
+    </TouchableOpacity>
+    <Text style={styles.title}>{recipe.title}</Text>
   </View>
 );
 

@@ -8,7 +8,6 @@ import SearchResult from './search-result';
 import Dimensions from 'Dimensions';
 import * as actions from '../actions';
 import screens from '../screens';
-import FontText from './font-text';
 
 class Search extends React.Component {
   constructor() {
@@ -38,7 +37,7 @@ class Search extends React.Component {
 
     return (searchResults.length) ? (
       <View>
-        <FontText style={styles.text}>Results for <FontText style={{ fontFamily: "OpenSans-Italic"}}>{`'${query}'`}</FontText>:</FontText>
+        <Text style={styles.text}>Results for <Text style={{ fontFamily: "OpenSans-Italic"}}>{`'${query}'`}</Text>:</Text>
         { searchResults.map((result, i) => {
           const tagsStr = result.tags ? result.tags.join(', ') : null;
           const ingredientsStr = result.ingredients ? result.ingredients.join(', ') : null;
@@ -132,7 +131,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(150, 150, 150, 0.6)",
+    backgroundColor: "rgba(180, 180, 180, 0.6)",
     borderRadius: 20
   },
   input: {

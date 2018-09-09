@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import * as actions from '../actions';
 import screens from '../screens';
 

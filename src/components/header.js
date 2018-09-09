@@ -2,12 +2,11 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableHighlight, Image } from 'react-native';
 import logo from '../images/logo2.png';
 import screens from '../screens';
-import FontText from './font-text';
 
 const Header = (props) => {
   return (
     <View style={styles.header}>
-      <FontText style={styles.headerText}>Recipe Box</FontText>
+      <Text style={styles.headerText}>Recipe Box</Text>
     </View>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, Image } from 'react-native';
 
 import spinner from '../images/spinner2.gif';
 

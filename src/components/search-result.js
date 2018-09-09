@@ -1,13 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import FontText from './font-text';
 
 const SearchResult = (props) => (
   <View style={styles.container}>
-    <FontText style={styles.text}>
-      <FontText style={[styles.text, {fontFamily: "OpenSans-Bold"}]}>{`${props.i + 1}. ${props.title} `}</FontText>
-      <FontText>{props.tags} {props.ingredients}</FontText>
-    </FontText>
+    <Text style={styles.text}>
+      <Text style={[styles.text, {fontFamily: "OpenSans-Bold"}]}>{`${props.i + 1}. ${props.title} `}</Text>
+      <Text>{props.tags} {props.ingredients}</Text>
+    </Text>
   </View>
 );
 

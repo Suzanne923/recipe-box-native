@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, TouchableHighlight, Button } from 'react-native';
+import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, Button } from 'react-native';
 import screens from '../../screens';
 import * as actions from '../../actions';
 

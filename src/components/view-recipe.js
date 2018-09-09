@@ -8,7 +8,6 @@ import Loading from './loading';
 import placeholder from '../images/placeholder.png';
 import Tag from './tag';
 import screens from '../screens';
-import FontText from './font-text';
 
 class ViewRecipe extends React.Component {
   componentWillMount() {
@@ -36,8 +35,8 @@ class ViewRecipe extends React.Component {
         <Tag tag={tag} />
       </TouchableOpacity>
     ));
-    const ingredients = recipe.ingredients.map((ingredient, i) => <FontText style={styles.text} key={i}>{`${ingredient.amount} ${ingredient.measure} ${ingredient.name}`}</FontText>);
-    const instructions = recipe.instructions.map((item, i) => <FontText style={styles.text} key={i}>{`${i + 1}. ${item}.`}</FontText>);
+    const ingredients = recipe.ingredients.map((ingredient, i) => <Text style={styles.text} key={i}>{`${ingredient.amount} ${ingredient.measure} ${ingredient.name}`}</Text>);
+    const instructions = recipe.instructions.map((item, i) => <Text style={styles.text} key={i}>{`${i + 1}. ${item}.`}</Text>);
 
     const image = recipe.image_url ? { uri: recipe.image_url } : placeholder;
 
@@ -46,18 +45,12 @@ class ViewRecipe extends React.Component {
         { isLoading ? <Loading /> : (
           <View style={styles.container}>
             <Image style={styles.image} source={image} />
-              <FontText style={styles.title}>{recipe.title}</FontText>
+              <Text style={styles.title}>{recipe.title}</Text>
               <View style={{flexDirection: "row"}}>{tags}</View>
-            <FontText style={styles.subTitle}>Ingredients:</FontText>
-            <View>{ingredients}</View>
-            <View
-              style={{
-                borderBottomColor: '#333',
-                borderBottomWidth: 1,
-              }}
-            />
-          <FontText style={styles.subTitle}>Instructions:</FontText>
-            <View style={{ paddingLeft: 10, paddingRight: 10}}>{instructions}</View>
+            <Text style={styles.subTitle}>Ingredients:</Text>
+            <View style={styles.listContainer}>{ingredients}</View>
+          <Text style={styles.subTitle}>Instructions:</Text>
+            <View style={styles.listContainer}>{instructions}</View>
           </View>)}
       </View>
     );
@@ -102,8 +95,14 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
     flex: 1,
   },
+  listContainer: {
+    alignSelf: "stretch",
+    paddingLeft: 15,
+    paddingRight: 15
+  },
   text: {
     fontFamily: "OpenSans-Regular",
+    textAlign: "left",
     color: "#333",
     paddingTop: 10,
     fontSize: 18

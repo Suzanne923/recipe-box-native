@@ -92,9 +92,16 @@ export function fetchUser(token, callback) {
   }
 }
 
-export async function logoutUser() {
-  await AsyncStorage.removeItem('recipeToken');
-  return { type: UNAUTH_USER };
+export function signoutUser(callback) {
+  return async (dispatch) => {
+    try {
+      await AsyncStorage.removeItem('recipeToken');
+      dispatch({ type: UNAUTH_USER });
+      callback();
+    } catch(e) {
+      console.log(e);
+    }
+  }
 }
 
 export function authError(error) {

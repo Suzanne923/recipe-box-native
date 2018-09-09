@@ -28,6 +28,8 @@ class Navigation extends React.Component {
     const token = await AsyncStorage.getItem('recipeToken');
     if (token) {
       fetchUser(token, () => { navigate(screens.HOME) });
+    } else {
+      navigate(screens.SIGNIN);
     }
   }
 
