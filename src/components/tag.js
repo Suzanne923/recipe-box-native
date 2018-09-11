@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
-const Tag = (props) => (
+const Tag = props => (
   <View style={styles.container}>
     <Text style={styles.text}>{props.tag}</Text>
   </View>

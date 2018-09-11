@@ -1,19 +1,24 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
-import Dimensions from 'Dimensions';
+import PropTypes from 'prop-types';
+import { StyleSheet, Dimensions, View, Text, Image, TouchableOpacity } from 'react-native';
 
 const RecipeItem = ({ recipe, onPress }) => (
   <View style={styles.container}>
     <TouchableOpacity
-      onPress={() => {onPress()}}
+      onPress={() => { onPress(); }}
       style={styles.imageContainer}
       underlayColor="#eee"
     >
-      <Image style={styles.image} source={{uri: recipe.image_url}} />
+      <Image style={styles.image} source={{ uri: recipe.image_url }} />
     </TouchableOpacity>
     <Text style={styles.title}>{recipe.title}</Text>
   </View>
 );
+
+RecipeItem.propTypes = {
+  recipe: PropTypes.any.isRequired,
+  onPress: PropTypes.func.isRequired
+};
 
 export default RecipeItem;
 
@@ -36,9 +41,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     height: 250,
-    alignSelf: "stretch",
+    alignSelf: "stretch"
   },
-  image: {
-    flex: 1,
-  }
+  image: { flex: 1 }
 });

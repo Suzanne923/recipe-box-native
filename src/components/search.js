@@ -1,20 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Dimensions, View, Text, TextInput, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 import SearchResult from './search-result';
-import Dimensions from 'Dimensions';
 import * as actions from '../actions';
 import screens from '../screens';
 
 class Search extends React.Component {
   constructor() {
     super();
-    this.state = {
-      query: ''
-    }
+    this.state = { query: '' };
   }
 
   componentWillMount() {
@@ -25,26 +23,43 @@ class Search extends React.Component {
 
   handlePress = (id) => {
     const { navigate, setRecipe } = this.props;
-    console.log('clicked on search result');
 
     setRecipe(id);
     navigate(screens.RECIPE);
   }
 
+
+  handleSubmit = () => {
+    const { searchRecipes } = this.props;
+    const { query } = this.state;
+
+    if (query !== '') {
+      searchRecipes(query);
+    }
+  }
+
+  handleInputChange = (value) => {
+    this.setState({ query: value });
+  }
+
   renderResults = () => {
-    const { searchResults, navigate, searchProp } = this.props;
-    const query = searchProp ? searchProp : this.state.query;
+    const { searchResults, searchProp } = this.props;
+    const { query } = this.state;
+    const queryString = searchProp || query;
 
     return (searchResults.length) ? (
       <View>
-        <Text style={styles.text}>Results for <Text style={{ fontFamily: "OpenSans-Italic"}}>{`'${query}'`}</Text>:</Text>
+        <Text style={styles.text}>
+          Results for
+          <Text style={{ fontFamily: "OpenSans-Italic" }}>{`'${queryString}'`}</Text>
+        </Text>
         { searchResults.map((result, i) => {
-          const tagsStr = result.tags ? result.tags.join(', ') : null;
-          const ingredientsStr = result.ingredients ? result.ingredients.join(', ') : null;
+          const tagsStr = result.tags ? result.tags.map(tag => tag.name).join(', ') : null;
+          const ingredientsStr = result.ingredients ? result.ingredients.map(item => item.name).join(', ') : null;
 
           return (
             <TouchableOpacity
-              key={i}
+              key={result.recipe_id}
               onPress={() => this.handlePress(result.recipe_id)}
               underlayColor="rgba(255, 255, 255, 0.2)"
             >
@@ -62,19 +77,6 @@ class Search extends React.Component {
     ) : null;
   }
 
-  handleSubmit = () => {
-    const { searchRecipes } = this.props;
-    const { query } = this.state;
-
-    if (query !== '') {
-      searchRecipes(query);
-    }
-  }
-
-  handleInputChange = (value) => {
-    this.setState({ query: value });
-  }
-
   render() {
     const { query } = this.state;
 
@@ -82,7 +84,7 @@ class Search extends React.Component {
       <View>
         <View style={styles.searchbarContainer}>
           <TouchableOpacity
-            style={[styles.iconContainer, {marginLeft: 10}]}
+            style={[styles.iconContainer, { marginLeft: 10 }]}
             onPress={this.handleSubmit}
           >
             <Ionicons name="ios-search" size={27} color="white" />
@@ -95,13 +97,13 @@ class Search extends React.Component {
             secureTextEntry={false}
             autoCorrect={false}
             autoCapitalize="none"
-            returnKeyType={'done'}
+            returnKeyType="done"
             placeholderTextColor="white"
             underlineColorAndroid="transparent"
           />
           <TouchableOpacity
-            style={[styles.iconContainer, {marginRight: 10}]}
-            onPress={() => {this.setState({ query: '' })}}
+            style={[styles.iconContainer, { marginRight: 10 }]}
+            onPress={() => { this.setState({ query: '' }); }}
           >
             <Entypo name="cross" size={27} color="white" />
           </TouchableOpacity>
@@ -113,6 +115,15 @@ class Search extends React.Component {
     );
   }
 }
+
+Search.propTypes = {
+  resetSearch: PropTypes.func.isRequired,
+  searchRecipes: PropTypes.func.isRequired,
+  navigate: PropTypes.func.isRequired,
+  searchProp: PropTypes.string.isRequired,
+  setRecipe: PropTypes.func.isRequired,
+  searchResults: PropTypes.arrayOf(PropTypes.object).isRequired
+};
 
 const mapStateToProps = (state, ownProps) => ({
   searchProp: state.nav.navProp,
@@ -140,12 +151,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 18,
     color: "#fff",
-    width: DEVICE_WIDTH - 100,
+    width: DEVICE_WIDTH - 100
   },
   iconContainer: {
     height: 40,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   searchContainer: {
     marginTop: 10,

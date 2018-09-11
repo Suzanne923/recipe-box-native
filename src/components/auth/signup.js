@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, Button } from 'react-native';
+import { StyleSheet, View, KeyboardAvoidingView } from 'react-native';
 import screens from '../../screens';
 import * as actions from '../../actions';
 
@@ -18,17 +19,18 @@ class Signup extends React.Component {
       password: '',
       passwordConfirm: '',
       error: ''
-    }
-  }
-
-  handleInputChange = (property) => (value) => {
-    this.setState({ [property]: value });
+    };
   }
 
   validate = () => {
-    const { email, password, passwordConfirm } = this.state;
+    const {
+      email,
+      password,
+      passwordConfirm
+    } = this.state;
 
-    ["email", "password", "passwordConfirm"].forEach(item => {
+    ["email", "password", "passwordConfirm"].forEach((item) => {
+      // eslint-disable-next-line
       if (!this.state[item]) {
         this.setState({ error: { [item]: "Is Required!" } });
         return false;
@@ -46,14 +48,25 @@ class Signup extends React.Component {
   }
 
   handleSubmit = () => {
-    const { isLoading, signupUser, navigate } = this.props;
+    const {
+      signupUser,
+      navigate
+    } = this.props;
     const { email, password } = this.state;
 
-    signupUser({ email, password }, () => { navigate(screens.HOME) });
+    signupUser({ email, password }, () => { navigate(screens.HOME); });
+  }
+
+  handleInputChange = property => (value) => {
+    this.setState({ [property]: value });
   }
 
   render() {
-    const { isLoading, screen, navigate } = this.props;
+    const {
+      isLoading,
+      screen,
+      navigate
+    } = this.props;
     const { error } = this.state;
 
     return (
@@ -67,33 +80,33 @@ class Signup extends React.Component {
             secureTextEntry={false}
             onChangeText={this.handleInputChange('email')}
             autoCorrect={false}
-            autoCapitalize={'none'}
-            returnKeyType={'done'}
+            autoCapitalize="none"
+            returnKeyType="done"
           />
           { error.passwordConfirm ? <ErrorMessage errorMessage={error} /> : null }
           <Input
             inputStyle={styles.input}
             placeholder="Password"
-            secureTextEntry={true}
+            secureTextEntry
             onChangeText={this.handleInputChange('password')}
             autoCorrect={false}
-            autoCapitalize={'none'}
-            returnKeyType={'done'}
+            autoCapitalize="none"
+            returnKeyType="done"
           />
           { error.passwordConfirm ? <ErrorMessage errorMessage={error} /> : null }
           <Input
             inputStyle={styles.input}
             placeholder="Confirm password"
-            secureTextEntry={true}
+            secureTextEntry
             onChangeText={this.handleInputChange('passwordConfirm')}
             autoCorrect={false}
-            autoCapitalize={'none'}
-            returnKeyType={'done'}
+            autoCapitalize="none"
+            returnKeyType="done"
           />
-        { error.passwordConfirm ? <ErrorMessage errorMessage={error} /> : null }
+          { error.passwordConfirm ? <ErrorMessage errorMessage={error} /> : null }
           <Submitbutton
             isLoading={isLoading}
-            handleSubmit={this.handleSubmit}
+            onSubmit={this.handleSubmit}
             validate={this.validate}
           />
         </KeyboardAvoidingView>
@@ -102,7 +115,14 @@ class Signup extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+Signup.propTypes = {
+  signupUser: PropTypes.func.isRequired,
+  navigate: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  screen: screens.isRequired
+};
+
+const mapStateToProps = state => ({
   isLoading: state.auth.isLoading,
   screen: state.nav.screen
 });

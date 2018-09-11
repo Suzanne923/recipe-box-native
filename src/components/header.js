@@ -1,15 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableHighlight, Image } from 'react-native';
-import logo from '../images/logo2.png';
-import screens from '../screens';
+import { StyleSheet, View, Text } from 'react-native';
 
-const Header = (props) => {
-  return (
-    <View style={styles.header}>
-      <Text style={styles.headerText}>Recipe Box</Text>
-    </View>
-  );
-}
+const Header = () => (
+  <View style={styles.header}>
+    <Text style={styles.headerText}>Recipe Box</Text>
+  </View>
+);
 
 export default Header;
 

@@ -3,14 +3,13 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 
 import logo from '../images/logo.png';
 
-const Logo = () => {
-  return(
-    <View style={styles.container}>
-      <Image source={logo} style={styles.image} />
-      <Text style={styles.text}>RECIPE BOX</Text>
-    </View>
-  );
-}
+const Logo = () => (
+  <View style={styles.container}>
+    <Image source={logo} style={styles.image} />
+    <Text style={styles.text}>RECIPE BOX</Text>
+  </View>
+);
+
 
 const styles = StyleSheet.create({
   container: {
@@ -29,7 +28,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "OpenSans-Bold",
     backgroundColor: "transparent",
-    marginTop: 20,
+    marginTop: 20
   }
 });
 

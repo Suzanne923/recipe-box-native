@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
-import Dimensions from 'Dimensions';
+import { StyleSheet, Dimensions, View, Text, Image, TouchableOpacity } from 'react-native';
 import * as actions from '../actions';
 
 import Loading from './loading';
@@ -11,9 +11,13 @@ import screens from '../screens';
 
 class ViewRecipe extends React.Component {
   componentWillMount() {
-    const { fetchRecipe, id, recipe } = this.props;
+    const {
+      fetchRecipe,
+      id,
+      recipe
+    } = this.props;
 
-    if (recipe.id != id) {
+    if (recipe.id !== id) {
       fetchRecipe(id);
     }
   }
@@ -26,18 +30,26 @@ class ViewRecipe extends React.Component {
 
   render() {
     const { isLoading, recipe } = this.props;
-    const tags = recipe.tags.map((tag, i) => (
+    console.log(recipe);
+    const tags = recipe.tags.map(tag => (
       <TouchableOpacity
-        onPress={() => {this.navigateToSearch(tag)}}
-        key={i}
+        onPress={() => { this.navigateToSearch(tag); }}
+        key={tag.id}
         underlayColor="rgba(255, 255, 255, 0.2)"
       >
-        <Tag tag={tag} />
+        <Tag tag={tag.name} />
       </TouchableOpacity>
     ));
-    const ingredients = recipe.ingredients.map((ingredient, i) => <Text style={styles.text} key={i}>{`${ingredient.amount} ${ingredient.measure} ${ingredient.name}`}</Text>);
-    const instructions = recipe.instructions.map((item, i) => <Text style={styles.text} key={i}>{`${i + 1}. ${item}.`}</Text>);
-
+    const ingredients = recipe.ingredients.map(ingredient => (
+      <Text style={styles.text} key={ingredient.id}>
+        {`${ingredient.amount} ${ingredient.measure} ${ingredient.name}`}
+      </Text>
+    ));
+    const instructions = recipe.instructions.map(item => (
+      <Text style={styles.text} key={item.id}>
+        {`${item.instruction_order}. ${item.name}.`}
+      </Text>
+    ));
     const image = recipe.image_url ? { uri: recipe.image_url } : placeholder;
 
     return (
@@ -45,19 +57,30 @@ class ViewRecipe extends React.Component {
         { isLoading ? <Loading /> : (
           <View style={styles.container}>
             <Image style={styles.image} source={image} />
-              <Text style={styles.title}>{recipe.title}</Text>
-              <View style={{flexDirection: "row"}}>{tags}</View>
+            <Text style={styles.title}>{recipe.title}</Text>
+            <View style={{ flexDirection: "row" }}>{tags}</View>
             <Text style={styles.subTitle}>Ingredients:</Text>
             <View style={styles.listContainer}>{ingredients}</View>
-          <Text style={styles.subTitle}>Instructions:</Text>
+            <Text style={styles.subTitle}>Instructions:</Text>
             <View style={styles.listContainer}>{instructions}</View>
           </View>)}
       </View>
     );
   }
+}
+
+ViewRecipe.propTypes = {
+  fetchRecipe: PropTypes.func.isRequired,
+  id: PropTypes.number,
+  recipe: PropTypes.any.isRequired,
+  searchRecipes: PropTypes.func.isRequired,
+  navigate: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired
 };
 
-const mapStateToProps = (state) => ({
+ViewRecipe.defaultProps = { id: null };
+
+const mapStateToProps = state => ({
   isLoading: state.recipes.isLoading,
   recipe: state.recipes.selectedRecipe
 });
@@ -87,13 +110,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 20
   },
-  imageContainer: {
-    height: 250
-  },
+  imageContainer: { height: 250 },
   image: {
     height: 250,
     alignSelf: "stretch",
-    flex: 1,
+    flex: 1
   },
   listContainer: {
     alignSelf: "stretch",

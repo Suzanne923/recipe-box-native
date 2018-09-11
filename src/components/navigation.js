@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyleSheet, View, BackHandler, ScrollView } from 'react-native';
-import { AsyncStorage } from "react-native";
+import { StyleSheet, AsyncStorage, View, BackHandler, ScrollView } from 'react-native';
 import * as actions from '../actions';
 import screens from '../screens';
 
@@ -18,56 +18,61 @@ import Search from './search';
 class Navigation extends React.Component {
   constructor() {
     super();
-    this.state = {
-      id: null
-    }
+    this.state = { id: null };
   }
 
   async componentWillMount() {
     const { fetchUser, navigate } = this.props;
     const token = await AsyncStorage.getItem('recipeToken');
+
     if (token) {
-      fetchUser(token, () => { navigate(screens.HOME) });
+      fetchUser(token, () => { navigate(screens.HOME); });
     } else {
       navigate(screens.SIGNIN);
     }
   }
 
   componentDidMount() {
-		BackHandler.addEventListener('hardwareBackPress', () => {
-      const { navigation, navigateBack, fontLoader } = this.props;
-			if(navigation.history.length) {
-				navigateBack();
-				return true;
-			}
-			return false;
-		});
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      const { navigation, navigateBack } = this.props;
+
+      if (navigation.history.length) {
+        navigateBack();
+        return true;
+      }
+      return false;
+    });
   }
 
   getScreen(screen) {
-    const { loading } = this.props;
     const { id } = this.state;
 
-    switch(screen) {
+    switch (screen) {
       case screens.HOME:
-        return <Home setRecipe={(id) => {this.setState({ id })}} />;
+        return <Home setRecipe={(newId) => { this.setState({ id: newId }); }} />;
       case screens.PROFILE:
         return <Profile />;
       case screens.RECIPE:
         return <ViewRecipe id={id} />;
       case screens.SEARCH:
-        return <Search setRecipe={(id) => {this.setState({ id })}} />;
+        return <Search setRecipe={(newId) => { this.setState({ id: newId }); }} />;
       case screens.SIGNIN:
         return <Signin />;
       case screens.SIGNUP:
         return <Signup />;
       case screens.DEFAULT:
         return <Loading />;
+      default:
+        return <Loading />;
     }
   }
 
   render() {
-    const { navigate, navigation: { screen }, authenticated } = this.props;
+    const {
+      navigate,
+      navigation: { screen },
+      authenticated
+    } = this.props;
 
     return (
       <View style={styles.container}>
@@ -75,13 +80,20 @@ class Navigation extends React.Component {
         <ScrollView>
           {this.getScreen(screen)}
         </ScrollView>
-        { authenticated && <Menu onPress={(screen) => navigate(screen)} /> }
+        { authenticated && <Menu onPress={() => { navigate(screen); }} /> }
       </View>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
+Navigation.propTypes = {
+  navigate: PropTypes.func.isRequired,
+  navigation: PropTypes.any.isRequired,
+  navigateBack: PropTypes.func.isRequired,
+  authenticated: PropTypes.bool.isRequired
+};
+
+const mapStateToProps = state => ({
   navigation: state.nav,
   authenticated: state.auth.authenticated,
   loading: state.auth.loading

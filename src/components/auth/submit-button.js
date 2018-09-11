@@ -1,11 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, TouchableHighlight, Text, Animated, Easing, Image } from 'react-native';
-import Dimensions from 'Dimensions';
+import PropTypes from 'prop-types';
+import { StyleSheet, Dimensions, View, TouchableHighlight, Text, Animated, Easing, Image } from 'react-native';
 
 import spinner from '../../images/spinner.gif';
 
 const DEVICE_WIDTH = Dimensions.get('window').width;
-const DEVICE_HEIGHT = Dimensions.get('window').height;
 const MARGIN = 40;
 
 export default class SubmitButton extends React.Component {
@@ -16,8 +15,16 @@ export default class SubmitButton extends React.Component {
     this.growAnimated = new Animated.Value(0);
   }
 
+  onGrow() {
+    Animated.timing(this.growAnimated, {
+      toValue: 1,
+      duration: 200,
+      easing: Easing.linear
+    }).start();
+  }
+
   handlePress = () => {
-    const { handleSubmit, validate } = this.props;
+    const { onSubmit, validate } = this.props;
     const validated = validate();
 
     if (validated) {
@@ -28,7 +35,7 @@ export default class SubmitButton extends React.Component {
       }).start();
 
       setTimeout(() => {
-        handleSubmit();
+        onSubmit();
       }, 10);
 
       setTimeout(() => {
@@ -40,14 +47,6 @@ export default class SubmitButton extends React.Component {
         this.growAnimated.setValue(0);
       }, 40000);
     }
-  }
-
-  onGrow() {
-    Animated.timing(this.growAnimated, {
-      toValue: 1,
-      duration: 200,
-      easing: Easing.linear,
-    }).start();
   }
 
   render() {
@@ -71,12 +70,18 @@ export default class SubmitButton extends React.Component {
           >
             { isLoading ? <Image source={spinner} style={styles.image} /> : <Text style={styles.text}>Submit</Text> }
           </TouchableHighlight>
-          <Animated.View style={[styles.circle, {transform: [{scale: changeScale}]}]} />
+          <Animated.View style={[styles.circle, { transform: [{ scale: changeScale }] }]} />
         </Animated.View>
       </View>
     );
   }
 }
+
+SubmitButton.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  validate: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired
+};
 
 const styles = StyleSheet.create({
   container: {

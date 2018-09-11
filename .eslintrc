@@ -1,0 +1,58 @@
+{
+  "extends": "eslint-config-airbnb",
+  "parser": "babel-eslint",
+  "plugins": [
+    "jsx-a11y",
+    "import",
+    "react",
+    "react-native"
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "root": [
+          "./src"
+        ],
+        "alias": {
+          "components": "components",
+          "images": "images",
+          "actions": "actions",
+          "reducers": "reducers"
+        }
+      }
+    }
+  },
+  "rules": {
+    "react/jsx-filename-extension": ["off", { "extensions": [".js", ".jsx"] }],
+    "react/prefer-stateless-function": "off",
+    "no-use-before-define": ["error", {
+       "functions": false,
+       "classes": false,
+       "variables": false
+    }],
+    "object-curly-newline":  ["error", {
+      "ObjectExpression": { "multiline": true, "minProperties": 3 },
+      "ObjectPattern": { "multiline": true, "minProperties": 3 },
+      "ImportDeclaration": { "multiline": true, "minProperties": 8 },
+      "ExportDeclaration": { "multiline": true, "minProperties": 3 }
+    }],
+    "react/sort-comp": ["error", {
+      "order": [
+        "static-methods",
+        "lifecycle",
+        "everything-else",
+        "/^on.+$/",
+        "/^handle.+$/",
+        "/^render.+$/",
+        "render"
+      ]
+    }],
+    "quotes": 0,
+    "comma-dangle": ["error", "never"],
+    "react/forbid-prop-types": ["error", { "forbid": ["array"] }],
+    "consistent-return": "off",
+    "max-len": ["error", { "code": 120, "ignoreComments": true, "ignoreUrls": true }],
+    "no-console": "off",
+    "prefer-destructuring": "off"
+  }
+}

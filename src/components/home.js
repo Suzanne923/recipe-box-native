@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import * as actions from '../actions';
 import screens from '../screens';
 
@@ -24,8 +25,14 @@ class Home extends React.Component {
   }
 
   render() {
-    const { signinUser, recipes, isLoading, navigate } = this.props;
-    const recipeList = recipes.map(recipe => <RecipeItem key={recipe.id} recipe={recipe} onPress={() => {this.navigateToRecipe(recipe.id)}} />);
+    const { recipes, isLoading } = this.props;
+    const recipeList = recipes.map(recipe => (
+      <RecipeItem
+        key={recipe.id}
+        recipe={recipe}
+        onPress={() => { this.navigateToRecipe(recipe.id); }}
+      />
+    ));
 
     return (
       <View style={styles.container}>
@@ -35,6 +42,15 @@ class Home extends React.Component {
     );
   }
 }
+
+Home.propTypes = {
+  fetchRecipes: PropTypes.func.isRequired,
+  newFetch: PropTypes.bool.isRequired,
+  navigate: PropTypes.func.isRequired,
+  setRecipe: PropTypes.func.isRequired,
+  recipes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isLoading: PropTypes.bool.isRequired
+};
 
 const mapStateToProps = (state, ownProps) => ({
   setRecipe: ownProps.setRecipe,
