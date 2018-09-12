@@ -1,11 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { StyleSheet, View, Text } from 'react-native';
 
-const Tag = props => (
+const Tag = ({ tag }) => (
   <View style={styles.container}>
-    <Text style={styles.text}>{props.tag}</Text>
+    <Text style={styles.text}>{tag}</Text>
   </View>
 );
+
+Tag.propTypes = { tag: PropTypes.string.isRequired };
 
 export default Tag;
 
@@ -21,6 +24,6 @@ const styles = StyleSheet.create({
   text: {
     color: "#333",
     fontFamily: "OpenSans-Regular",
-    fontSize: 18,
+    fontSize: 18
   }
-})
+});

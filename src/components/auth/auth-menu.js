@@ -21,7 +21,7 @@ const AuthMenu = ({ screen, navigate }) => (
 );
 
 AuthMenu.propTypes = {
-  screen: screens.isRequired,
+  screen: PropTypes.number.isRequired,
   navigate: PropTypes.func.isRequired
 };
 

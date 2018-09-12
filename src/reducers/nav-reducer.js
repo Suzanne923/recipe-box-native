@@ -6,7 +6,8 @@ import {
 
 const initialState = {
   screen: screens.DEFAULT,
-  history: []
+  history: [],
+  navProp: null
 };
 
 export default function (state = initialState, action) {

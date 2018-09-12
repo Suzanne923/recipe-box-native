@@ -80,7 +80,7 @@ class Navigation extends React.Component {
         <ScrollView>
           {this.getScreen(screen)}
         </ScrollView>
-        { authenticated && <Menu onPress={() => { navigate(screen); }} /> }
+        { authenticated && <Menu onPress={(newScreen) => { navigate(newScreen); }} /> }
       </View>
     );
   }

@@ -30,10 +30,9 @@ class ViewRecipe extends React.Component {
 
   render() {
     const { isLoading, recipe } = this.props;
-    console.log(recipe);
     const tags = recipe.tags.map(tag => (
       <TouchableOpacity
-        onPress={() => { this.navigateToSearch(tag); }}
+        onPress={() => { this.navigateToSearch(tag.name); }}
         key={tag.id}
         underlayColor="rgba(255, 255, 255, 0.2)"
       >

@@ -22,8 +22,13 @@ const SearchResult = ({
 SearchResult.propTypes = {
   i: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
-  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  ingredients: PropTypes.arrayOf(PropTypes.object).isRequired
+  tags: PropTypes.string,
+  ingredients: PropTypes.string
+};
+
+SearchResult.defaultProps = {
+  tags: '',
+  ingredients: ''
 };
 
 export default SearchResult;

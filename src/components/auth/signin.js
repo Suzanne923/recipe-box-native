@@ -119,7 +119,7 @@ Signin.propTypes = {
   signinUser: PropTypes.func.isRequired,
   navigate: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  screen: screens.isRequired
+  screen: PropTypes.number.isRequired
 };
 
 const mapStateToProps = state => ({

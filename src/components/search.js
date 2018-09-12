@@ -54,8 +54,8 @@ class Search extends React.Component {
           <Text style={{ fontFamily: "OpenSans-Italic" }}>{`'${queryString}'`}</Text>
         </Text>
         { searchResults.map((result, i) => {
-          const tagsStr = result.tags ? result.tags.map(tag => tag.name).join(', ') : null;
-          const ingredientsStr = result.ingredients ? result.ingredients.map(item => item.name).join(', ') : null;
+          const tagsStr = result.tags ? result.tags.join(', ') : null;
+          const ingredientsStr = result.ingredients ? result.ingredients.join(', ') : null;
 
           return (
             <TouchableOpacity
@@ -120,10 +120,12 @@ Search.propTypes = {
   resetSearch: PropTypes.func.isRequired,
   searchRecipes: PropTypes.func.isRequired,
   navigate: PropTypes.func.isRequired,
-  searchProp: PropTypes.string.isRequired,
+  searchProp: PropTypes.any,
   setRecipe: PropTypes.func.isRequired,
   searchResults: PropTypes.arrayOf(PropTypes.object).isRequired
 };
+
+Search.defaultProps = { searchProp: null };
 
 const mapStateToProps = (state, ownProps) => ({
   searchProp: state.nav.navProp,
