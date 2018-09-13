@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyleSheet, Dimensions, View, ScrollView, TouchableHighlight, Text } from 'react-native';
+import { StyleSheet, Dimensions, View, ScrollView, TouchableHighlight, Text, Alert } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import * as actions from '../actions';
 import screens from '../screens';
@@ -10,7 +10,10 @@ class Profile extends React.Component {
   handleSignout = () => {
     const { signoutUser, navigate } = this.props;
 
-    signoutUser(() => { navigate(screens.SIGNIN); });
+    Alert.alert('', 'Are you sure you want to sign out?', [
+      { text: "Yes", onPress: () => { signoutUser(() => { navigate(screens.SIGNIN); }); } },
+      { text: "No", onPress: () => null }
+    ]);
   }
 
   render() {
