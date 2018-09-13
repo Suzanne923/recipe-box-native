@@ -4,6 +4,7 @@ export const LOADING = 'loading';
 export const AUTH_USER = 'auth-user';
 export const UNAUTH_USER = 'unauth-user';
 export const AUTH_ERROR = 'auth-error';
+export const RESET_AUTH_ERROR = 'reset-auth-error';
 export const FETCH_USER = 'fetch-user';
 export const FETCH_RECIPES = 'fetch-recipes';
 export const FETCH_RECIPE = 'fetch-recipe';

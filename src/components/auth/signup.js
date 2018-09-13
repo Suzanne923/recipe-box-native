@@ -9,7 +9,6 @@ import AuthMenu from './auth-menu';
 import Logo from '../logo';
 import Input from '../input';
 import Submitbutton from './submit-button';
-import ErrorMessage from './error-message';
 
 class Signup extends React.Component {
   constructor() {
@@ -18,21 +17,36 @@ class Signup extends React.Component {
       email: '',
       password: '',
       passwordConfirm: '',
-      error: ''
+      error: {
+        email: false,
+        password: false,
+        passwordConfirm: false
+      }
     };
+
+    this.focusNextField = this.focusNextField.bind(this);
+    this.inputs = {};
+  }
+
+  focusNextField(id) {
+    this.inputs[id].focus();
   }
 
   validate = () => {
     const {
       email,
       password,
-      passwordConfirm
+      passwordConfirm,
+      error
     } = this.state;
 
     ["email", "password", "passwordConfirm"].forEach((item) => {
       // eslint-disable-next-line
       if (!this.state[item]) {
-        this.setState({ error: { [item]: "Is Required!" } });
+        const newError = error;
+        newError[item] = true;
+
+        this.setState({ error: newError });
         return false;
       }
     });
@@ -75,35 +89,29 @@ class Signup extends React.Component {
         <Logo />
         <KeyboardAvoidingView>
           <Input
-            inputStyle={styles.input}
+            inputStyle={[styles.input, error.email ? { borderColor: "red", borderWidth: 2 } : null]}
             placeholder="Email"
-            secureTextEntry={false}
+            onSubmitEditing={() => { this.focusNextField('two'); }}
+            returnKeyType="next"
             onChangeText={this.handleInputChange('email')}
-            autoCorrect={false}
-            autoCapitalize="none"
-            returnKeyType="done"
+            getRef={(input) => { this.inputs['one'] = input; }}
           />
-          { error.passwordConfirm ? <ErrorMessage errorMessage={error} /> : null }
           <Input
-            inputStyle={styles.input}
+            inputStyle={[styles.input, error.password ? { borderColor: "red", borderWidth: 2 } : null]}
             placeholder="Password"
             secureTextEntry
+            onSubmitEditing={() => { this.focusNextField('three'); }}
+            returnKeyType="next"
             onChangeText={this.handleInputChange('password')}
-            autoCorrect={false}
-            autoCapitalize="none"
-            returnKeyType="done"
+            getRef={(input) => { this.inputs['two'] = input; }}
           />
-          { error.passwordConfirm ? <ErrorMessage errorMessage={error} /> : null }
           <Input
-            inputStyle={styles.input}
+            inputStyle={[styles.input, error.passwordConfirm ? { borderColor: "red", borderWidth: 2 } : null]}
             placeholder="Confirm password"
             secureTextEntry
             onChangeText={this.handleInputChange('passwordConfirm')}
-            autoCorrect={false}
-            autoCapitalize="none"
-            returnKeyType="done"
+            getRef={(input) => { this.inputs['three'] = input; }}
           />
-          { error.passwordConfirm ? <ErrorMessage errorMessage={error} /> : null }
           <Submitbutton
             isLoading={isLoading}
             onSubmit={this.handleSubmit}

@@ -47,6 +47,7 @@
         "render"
       ]
     }],
+    "dot-notation": "off",
     "quotes": 0,
     "comma-dangle": ["error", "never"],
     "react/forbid-prop-types": ["error", { "forbid": ["array"] }],

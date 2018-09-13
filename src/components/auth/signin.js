@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyleSheet, View, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, View, KeyboardAvoidingView, Alert } from 'react-native';
 import screens from '../../screens';
 import * as actions from '../../actions';
 
@@ -18,6 +18,29 @@ class Signin extends React.Component {
       password: '',
       error: { email: false, password: false }
     };
+
+    this.focusNextField = this.focusNextField.bind(this);
+    this.inputs = {};
+  }
+
+  componentDidUpdate() {
+    const { error, resetAuthError } = this.props;
+
+    if (error) {
+      Alert.alert('', error, [
+        {
+          text: 'OK',
+          onPress: () => {
+            this.inputs['one'].focus();
+            resetAuthError();
+          }
+        }
+      ]);
+    }
+  }
+
+  focusNextField(id) {
+    this.inputs[id].focus();
   }
 
   validate = () => {
@@ -89,20 +112,17 @@ class Signin extends React.Component {
           <Input
             inputStyle={[styles.input, error.email ? { borderColor: "red", borderWidth: 2 } : null]}
             placeholder="Email"
-            secureTextEntry={false}
+            onSubmitEditing={() => { this.focusNextField('two'); }}
+            returnKeyType="next"
             onChangeText={this.handleInputChange('email')}
-            autoCorrect={false}
-            autoCapitalize="none"
-            returnKeyType="done"
+            getRef={(input) => { this.inputs['one'] = input; }}
           />
           <Input
             inputStyle={[styles.input, error.password ? { borderColor: "red", borderWidth: 2 } : null]}
             placeholder="Password"
             secureTextEntry
             onChangeText={this.handleInputChange('password')}
-            autoCorrect={false}
-            autoCapitalize="none"
-            returnKeyType="done"
+            getRef={(input) => { this.inputs['two'] = input; }}
           />
           <Submitbutton
             isLoading={isLoading}
@@ -119,12 +139,17 @@ Signin.propTypes = {
   signinUser: PropTypes.func.isRequired,
   navigate: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  screen: PropTypes.number.isRequired
+  screen: PropTypes.number.isRequired,
+  error: PropTypes.string,
+  resetAuthError: PropTypes.func.isRequired
 };
+
+Signin.defaultProps = { error: '' };
 
 const mapStateToProps = state => ({
   isLoading: state.auth.isLoading,
-  screen: state.nav.screen
+  screen: state.nav.screen,
+  error: state.auth.error
 });
 
 export default connect(mapStateToProps, actions)(Signin);

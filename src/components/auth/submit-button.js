@@ -1,6 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Dimensions, View, TouchableHighlight, Text, Animated, Easing, Image } from 'react-native';
+import {
+  StyleSheet,
+  Dimensions,
+  View,
+  TouchableHighlight,
+  Text,
+  Animated,
+  Easing,
+  Image
+} from 'react-native';
 
 import spinner from '../../images/spinner.gif';
 
@@ -24,7 +33,11 @@ export default class SubmitButton extends React.Component {
   }
 
   handlePress = () => {
-    const { onSubmit, validate } = this.props;
+    const {
+      onSubmit,
+      validate,
+      isLoading
+    } = this.props;
     const validated = validate();
 
     if (validated) {
@@ -40,12 +53,19 @@ export default class SubmitButton extends React.Component {
 
       setTimeout(() => {
         this.onGrow();
-      }, 2000);
+      }, 1000);
 
-      setTimeout(() => {
-        this.buttonAnimated.setValue(0);
-        this.growAnimated.setValue(0);
-      }, 40000);
+      if (isLoading) {
+        setTimeout(() => {
+          this.buttonAnimated.setValue(0);
+          this.growAnimated.setValue(0);
+        }, 3000);
+      } else {
+        setTimeout(() => {
+          this.buttonAnimated.setValue(0);
+          this.growAnimated.setValue(0);
+        }, 100);
+      }
     }
   }
 

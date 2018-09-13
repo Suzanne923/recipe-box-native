@@ -7,6 +7,7 @@ import {
   AUTH_USER,
   UNAUTH_USER,
   AUTH_ERROR,
+  RESET_AUTH_ERROR,
   FETCH_RECIPES,
   FETCH_RECIPE,
   SEARCH_RECIPES,
@@ -96,12 +97,13 @@ export function signoutUser(callback) {
 }
 
 export function authError(error) {
-  console.log(error);
   return {
     type: AUTH_ERROR,
     payload: error
   };
 }
+
+export const resetAuthError = () => ({ type: RESET_AUTH_ERROR });
 
 export function fetchRecipes() {
   return async (dispatch) => {
