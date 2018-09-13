@@ -59,7 +59,7 @@ export default class SubmitButton extends React.Component {
         setTimeout(() => {
           this.buttonAnimated.setValue(0);
           this.growAnimated.setValue(0);
-        }, 3000);
+        }, 40000);
       } else {
         setTimeout(() => {
           this.buttonAnimated.setValue(0);
