@@ -81,7 +81,12 @@ class Signup extends React.Component {
       screen,
       navigate
     } = this.props;
-    const { error } = this.state;
+    const {
+      email,
+      password,
+      passwordConfirm,
+      error
+    } = this.state;
 
     return (
       <View>
@@ -89,6 +94,7 @@ class Signup extends React.Component {
         <Logo />
         <KeyboardAvoidingView>
           <Input
+            value={email}
             inputStyle={[styles.input, error.email && { borderColor: "red", borderWidth: 2 }]}
             placeholder="Email"
             onSubmitEditing={() => { this.focusNextField('two'); }}
@@ -97,6 +103,7 @@ class Signup extends React.Component {
             getRef={(input) => { this.inputs['one'] = input; }}
           />
           <Input
+            value={password}
             inputStyle={[styles.input, error.password && { borderColor: "red", borderWidth: 2 }]}
             placeholder="Password"
             secureTextEntry
@@ -106,6 +113,7 @@ class Signup extends React.Component {
             getRef={(input) => { this.inputs['two'] = input; }}
           />
           <Input
+            value={passwordConfirm}
             inputStyle={[styles.input, error.passwordConfirm && { borderColor: "red", borderWidth: 2 }]}
             placeholder="Confirm password"
             secureTextEntry

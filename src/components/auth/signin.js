@@ -24,10 +24,10 @@ class Signin extends React.Component {
   }
 
   componentDidUpdate() {
-    const { error, resetAuthError } = this.props;
+    const { submitError, resetAuthError } = this.props;
 
-    if (error) {
-      Alert.alert('', error, [
+    if (submitError) {
+      Alert.alert('', submitError, [
         {
           text: 'OK',
           onPress: () => {
@@ -100,9 +100,14 @@ class Signin extends React.Component {
     const {
       isLoading,
       navigate,
-      screen
+      screen,
+      submitError
     } = this.props;
-    const { error } = this.state;
+    const {
+      email,
+      password,
+      error
+    } = this.state;
 
     return (
       <View>
@@ -110,6 +115,7 @@ class Signin extends React.Component {
         <Logo />
         <KeyboardAvoidingView style={{ alignSelf: "stretch" }}>
           <Input
+            value={email}
             inputStyle={[styles.input, error.email && { borderColor: "red", borderWidth: 2 }]}
             placeholder="Email"
             onSubmitEditing={() => { this.focusNextField('two'); }}
@@ -118,6 +124,7 @@ class Signin extends React.Component {
             getRef={(input) => { this.inputs['one'] = input; }}
           />
           <Input
+            value={password}
             inputStyle={[styles.input, error.password && { borderColor: "red", borderWidth: 2 }]}
             placeholder="Password"
             secureTextEntry
@@ -128,6 +135,7 @@ class Signin extends React.Component {
             isLoading={isLoading}
             validate={this.validate}
             onSubmit={this.handleSubmit}
+            submitError={submitError}
           />
         </KeyboardAvoidingView>
       </View>
@@ -140,16 +148,16 @@ Signin.propTypes = {
   navigate: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   screen: PropTypes.number.isRequired,
-  error: PropTypes.string,
+  submitError: PropTypes.string,
   resetAuthError: PropTypes.func.isRequired
 };
 
-Signin.defaultProps = { error: '' };
+Signin.defaultProps = { submitError: '' };
 
 const mapStateToProps = state => ({
   isLoading: state.auth.isLoading,
   screen: state.nav.screen,
-  error: state.auth.error
+  submitError: state.auth.error
 });
 
 export default connect(mapStateToProps, actions)(Signin);

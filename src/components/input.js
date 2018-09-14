@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, TextInput } from 'react-native';
+import { View, TextInput } from 'react-native';
 
 class Input extends React.Component {
   render() {
     const {
+      value,
       inputStyle,
       placeholder,
       onChangeText,
@@ -14,12 +15,15 @@ class Input extends React.Component {
       onSubmitEditing,
       returnKeyType,
       blurOnSubmit,
+      placeholderTextColor,
+      underlineColorAndroid,
       getRef
     } = this.props;
 
     return (
-      <View style={styles.inputWrapper}>
+      <View>
         <TextInput
+          value={value}
           style={inputStyle}
           placeholder={placeholder}
           onChangeText={onChangeText}
@@ -29,8 +33,8 @@ class Input extends React.Component {
           onSubmitEditing={onSubmitEditing}
           returnKeyType={returnKeyType}
           blurOnSubmit={blurOnSubmit}
-          placeholderTextColor="white"
-          underlineColorAndroid="transparent"
+          placeholderTextColor={placeholderTextColor}
+          underlineColorAndroid={underlineColorAndroid}
           ref={getRef}
         />
       </View>
@@ -39,6 +43,7 @@ class Input extends React.Component {
 }
 
 Input.propTypes = {
+  value: PropTypes.string,
   inputStyle: PropTypes.any.isRequired,
   placeholder: PropTypes.string.isRequired,
   onChangeText: PropTypes.func.isRequired,
@@ -48,19 +53,22 @@ Input.propTypes = {
   onSubmitEditing: PropTypes.any,
   returnKeyType: PropTypes.string,
   blurOnSubmit: PropTypes.bool,
+  placeholderTextColor: PropTypes.string,
+  underlineColorAndroid: PropTypes.string,
   getRef: PropTypes.func
 };
 
 Input.defaultProps = {
+  value: '',
   secureTextEntry: false,
   autoCorrect: false,
   autoCapitalize: "none",
   onSubmitEditing: null,
   returnKeyType: "done",
   blurOnSubmit: false,
+  placeholderTextColor: "white",
+  underlineColorAndroid: "transparent",
   getRef: null
 };
 
 export default Input;
-
-const styles = StyleSheet.create({ inputWrapper: { flex: 1 } });

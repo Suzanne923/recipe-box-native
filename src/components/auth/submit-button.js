@@ -24,6 +24,15 @@ export default class SubmitButton extends React.Component {
     this.growAnimated = new Animated.Value(0);
   }
 
+  componentDidUpdate() {
+    const { submitError } = this.props;
+
+    if (submitError) {
+      this.buttonAnimated.setValue(0);
+      this.growAnimated.setValue(0);
+    }
+  }
+
   onGrow() {
     Animated.timing(this.growAnimated, {
       toValue: 1,
@@ -35,8 +44,7 @@ export default class SubmitButton extends React.Component {
   handlePress = () => {
     const {
       onSubmit,
-      validate,
-      isLoading
+      validate
     } = this.props;
     const validated = validate();
 
@@ -53,19 +61,12 @@ export default class SubmitButton extends React.Component {
 
       setTimeout(() => {
         this.onGrow();
-      }, 1000);
+      }, 2000);
 
-      if (isLoading) {
-        setTimeout(() => {
-          this.buttonAnimated.setValue(0);
-          this.growAnimated.setValue(0);
-        }, 40000);
-      } else {
-        setTimeout(() => {
-          this.buttonAnimated.setValue(0);
-          this.growAnimated.setValue(0);
-        }, 100);
-      }
+      setTimeout(() => {
+        this.buttonAnimated.setValue(0);
+        this.growAnimated.setValue(0);
+      }, 40000);
     }
   }
 
@@ -100,7 +101,8 @@ export default class SubmitButton extends React.Component {
 SubmitButton.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   validate: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired
+  isLoading: PropTypes.bool.isRequired,
+  submitError: PropTypes.string.isRequired
 };
 
 const styles = StyleSheet.create({

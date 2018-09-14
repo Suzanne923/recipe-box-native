@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyleSheet, Dimensions, View, Text, TextInput } from 'react-native';
+import { StyleSheet, Dimensions, View, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 
+import Input from './input';
 import SearchResult from './search-result';
 import Icon from './icon';
 import * as actions from '../actions';
@@ -88,17 +89,12 @@ class Search extends React.Component {
           <Icon style={[styles.iconContainer, { marginLeft: 10 }]} onPress={this.handleSubmit}>
             <Ionicons name="ios-search" size={27} color="white" />
           </Icon>
-          <TextInput
+          <Input
             value={query}
-            style={styles.input}
+            inputStyle={styles.input}
             placeholder="Search recipes..."
             onChangeText={this.handleInputChange}
-            secureTextEntry={false}
-            autoCorrect={false}
-            autoCapitalize="none"
-            returnKeyType="done"
-            placeholderTextColor="white"
-            underlineColorAndroid="transparent"
+            onSubmitEditing={this.handleSubmit}
           />
           <Icon style={[styles.iconContainer, { marginRight: 10 }]} onPress={this.deleteInput}>
             <Entypo name="cross" size={27} color="white" />
