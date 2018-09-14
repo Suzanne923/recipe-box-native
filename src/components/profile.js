@@ -7,6 +7,18 @@ import * as actions from '../actions';
 import screens from '../screens';
 
 class Profile extends React.Component {
+  navigateToRandomRecipe = () => {
+    const {
+      navigate,
+      recipes,
+      setRecipe
+    } = this.props;
+
+    const randomRecipe = recipes[Math.floor(Math.random() * recipes.length)];
+    setRecipe(randomRecipe.id);
+    navigate(screens.RECIPE);
+  }
+
   handleSignout = () => {
     const { signoutUser, navigate } = this.props;
 
@@ -18,6 +30,18 @@ class Profile extends React.Component {
 
   render() {
     const { email } = this.props;
+    const ProfileButtonItem = ({ onPress, children }) => (
+      <TouchableHighlight
+        onPress={onPress}
+        underlayColor="#ccc"
+        activeOpacity={1}
+        style={styles.profileItem}
+      >
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          {children}
+        </View>
+      </TouchableHighlight>
+    );
 
     return (
       <View style={styles.container}>
@@ -30,17 +54,14 @@ class Profile extends React.Component {
             <Text style={[styles.text, { color: "#a92b00" }]}>Email:</Text>
             <Text style={styles.text}>{email}</Text>
           </View>
-          <TouchableHighlight
-            onPress={this.handleSignout}
-            underlayColor="#ccc"
-            activeOpacity={1}
-            style={styles.profileItem}
-          >
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <FontAwesome name="sign-out" size={16} color="#a92b00" />
-              <Text style={[styles.text, { marginLeft: 5 }]}>Sign Out</Text>
-            </View>
-          </TouchableHighlight>
+          <ProfileButtonItem onPress={this.navigateToRandomRecipe}>
+            <FontAwesome name="random" size={16} color="#a92b00" />
+            <Text style={[styles.text, { marginLeft: 5 }]}>Random Recipe</Text>
+          </ProfileButtonItem>
+          <ProfileButtonItem onPress={this.handleSignout}>
+            <FontAwesome name="sign-out" size={16} color="#a92b00" />
+            <Text style={[styles.text, { marginLeft: 5 }]}>Sign Out</Text>
+          </ProfileButtonItem>
         </ScrollView>
       </View>
     );
@@ -50,12 +71,17 @@ class Profile extends React.Component {
 Profile.propTypes = {
   signoutUser: PropTypes.func.isRequired,
   navigate: PropTypes.func.isRequired,
-  email: PropTypes.string
+  email: PropTypes.string,
+  recipes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setRecipe: PropTypes.func.isRequired
 };
 
 Profile.defaultProps = { email: '' };
 
-const mapStateToProps = state => ({ email: state.auth.email });
+const mapStateToProps = state => ({
+  email: state.auth.email,
+  recipes: state.recipes.storedRecipes
+});
 
 export default connect(mapStateToProps, actions)(Profile);
 

@@ -44,18 +44,20 @@ class Navigation extends React.Component {
     });
   }
 
+  setRecipe = newId => this.setState({ id: newId });
+
   getScreen(screen) {
     const { id } = this.state;
 
     switch (screen) {
       case screens.HOME:
-        return <Home setRecipe={(newId) => { this.setState({ id: newId }); }} />;
+        return <Home setRecipe={(newId) => { this.setRecipe(newId); }} />;
       case screens.PROFILE:
-        return <Profile />;
+        return <Profile setRecipe={(newId) => { this.setRecipe(newId); }} />;
       case screens.RECIPE:
         return <ViewRecipe id={id} />;
       case screens.SEARCH:
-        return <Search setRecipe={(newId) => { this.setState({ id: newId }); }} />;
+        return <Search setRecipe={(newId) => { this.setRecipe(newId); }} />;
       case screens.SIGNIN:
         return <Signin />;
       case screens.SIGNUP:

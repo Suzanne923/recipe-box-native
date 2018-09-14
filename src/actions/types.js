@@ -10,4 +10,3 @@ export const FETCH_RECIPES = 'fetch-recipes';
 export const FETCH_RECIPE = 'fetch-recipe';
 export const SEARCH_RECIPES = 'search-recipes';
 export const RESET_SEARCH = 'reset-search';
-export const LOADING_FONT = 'loading-font';
