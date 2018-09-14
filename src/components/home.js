@@ -36,7 +36,7 @@ class Home extends React.Component {
 
     return (
       <View style={styles.container}>
-        { isLoading ? <Loading /> : null }
+        { isLoading && <Loading /> }
         {recipeList}
       </View>
     );

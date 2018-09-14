@@ -110,7 +110,7 @@ class Signin extends React.Component {
         <Logo />
         <KeyboardAvoidingView style={{ alignSelf: "stretch" }}>
           <Input
-            inputStyle={[styles.input, error.email ? { borderColor: "red", borderWidth: 2 } : null]}
+            inputStyle={[styles.input, error.email && { borderColor: "red", borderWidth: 2 }]}
             placeholder="Email"
             onSubmitEditing={() => { this.focusNextField('two'); }}
             returnKeyType="next"
@@ -118,7 +118,7 @@ class Signin extends React.Component {
             getRef={(input) => { this.inputs['one'] = input; }}
           />
           <Input
-            inputStyle={[styles.input, error.password ? { borderColor: "red", borderWidth: 2 } : null]}
+            inputStyle={[styles.input, error.password && { borderColor: "red", borderWidth: 2 }]}
             placeholder="Password"
             secureTextEntry
             onChangeText={this.handleInputChange('password')}

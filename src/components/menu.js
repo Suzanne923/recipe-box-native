@@ -1,33 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import screens from '../screens';
+import MenuButton from './menu-button';
 
 const Menu = ({ onPress }) => (
   <View style={styles.container}>
-    <TouchableOpacity
-      underlayColor="rgba(255, 255, 255, 0.2)"
-      onPress={() => { onPress(screens.SEARCH); }}
-      style={styles.icon}
-    >
+    <MenuButton onPress={() => { onPress(screens.SEARCH); }}>
       <Ionicons name="ios-search" size={36} color="white" />
-    </TouchableOpacity>
-    <TouchableOpacity
-      underlayColor="rgba(255, 255, 255, 0.2)"
-      onPress={() => { onPress(screens.HOME); }}
-      style={styles.icon}
-    >
+    </MenuButton>
+    <MenuButton onPress={() => { onPress(screens.HOME); }}>
       <Ionicons name="md-home" size={36} color="white" />
-    </TouchableOpacity>
-    <TouchableOpacity
-      underlayColor="rgba(255, 255, 255, 0.2)"
-      onPress={() => { onPress(screens.PROFILE); }}
-      style={styles.icon}
-    >
+    </MenuButton>
+    <MenuButton onPress={() => { onPress(screens.PROFILE); }}>
       <FontAwesome name="user-circle" size={36} color="white" />
-    </TouchableOpacity>
+    </MenuButton>
   </View>
 );
 
@@ -43,9 +32,5 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: "#a92b00",
     alignSelf: "stretch"
-  },
-  icon: {
-    marginLeft: 20,
-    marginRight: 20
   }
 });

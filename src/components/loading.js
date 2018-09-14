@@ -3,9 +3,7 @@ import { StyleSheet, Image } from 'react-native';
 
 import spinner from '../images/spinner2.gif';
 
-const Loading = () => (
-  <Image source={spinner} style={styles.image} />
-);
+const Loading = () => <Image source={spinner} style={styles.image} />;
 
 export default Loading;
 

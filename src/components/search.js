@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyleSheet, Dimensions, View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Dimensions, View, Text, TextInput } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 import SearchResult from './search-result';
+import Icon from './icon';
 import * as actions from '../actions';
 import screens from '../screens';
 
@@ -21,13 +22,16 @@ class Search extends React.Component {
     resetSearch();
   }
 
+  deleteInput = () => {
+    this.setState({ query: '' });
+  }
+
   handlePress = (id) => {
     const { navigate, setRecipe } = this.props;
 
     setRecipe(id);
     navigate(screens.RECIPE);
   }
-
 
   handleSubmit = () => {
     const { searchRecipes } = this.props;
@@ -47,32 +51,30 @@ class Search extends React.Component {
     const { query } = this.state;
     const queryString = searchProp || query;
 
-    return (searchResults.length) ? (
-      <View>
+    return searchResults.length ? (
+      <View style={styles.searchContainer}>
         <Text style={styles.text}>
           Results for
           <Text style={{ fontFamily: "OpenSans-Italic" }}>{`'${queryString}'`}</Text>
         </Text>
-        { searchResults.map((result, i) => {
-          const tagsStr = result.tags ? result.tags.join(', ') : null;
-          const ingredientsStr = result.ingredients ? result.ingredients.join(', ') : null;
+        {
+          searchResults.map((result, i) => {
+            const tagsStr = result.tags && result.tags.join(', ');
+            const ingredientsStr = result.ingredients && result.ingredients.join(', ');
 
-          return (
-            <TouchableOpacity
-              key={result.recipe_id}
-              onPress={() => this.handlePress(result.recipe_id)}
-              underlayColor="rgba(255, 255, 255, 0.2)"
-            >
+            return (
               <SearchResult
+                key={result.recipe_id}
                 i={i}
                 id={result.recipe_id}
                 title={result.title}
                 tags={tagsStr}
                 ingredients={ingredientsStr}
+                onPress={() => this.handlePress(result.recipe_id)}
               />
-            </TouchableOpacity>
-          );
-        })}
+            );
+          })
+        }
       </View>
     ) : null;
   }
@@ -83,12 +85,9 @@ class Search extends React.Component {
     return (
       <View>
         <View style={styles.searchbarContainer}>
-          <TouchableOpacity
-            style={[styles.iconContainer, { marginLeft: 10 }]}
-            onPress={this.handleSubmit}
-          >
+          <Icon style={[styles.iconContainer, { marginLeft: 10 }]} onPress={this.handleSubmit}>
             <Ionicons name="ios-search" size={27} color="white" />
-          </TouchableOpacity>
+          </Icon>
           <TextInput
             value={query}
             style={styles.input}
@@ -101,16 +100,11 @@ class Search extends React.Component {
             placeholderTextColor="white"
             underlineColorAndroid="transparent"
           />
-          <TouchableOpacity
-            style={[styles.iconContainer, { marginRight: 10 }]}
-            onPress={() => { this.setState({ query: '' }); }}
-          >
+          <Icon style={[styles.iconContainer, { marginRight: 10 }]} onPress={this.deleteInput}>
             <Entypo name="cross" size={27} color="white" />
-          </TouchableOpacity>
+          </Icon>
         </View>
-        <View style={styles.searchContainer}>
-          {this.renderResults()}
-        </View>
+        {this.renderResults()}
       </View>
     );
   }

@@ -89,7 +89,7 @@ class Signup extends React.Component {
         <Logo />
         <KeyboardAvoidingView>
           <Input
-            inputStyle={[styles.input, error.email ? { borderColor: "red", borderWidth: 2 } : null]}
+            inputStyle={[styles.input, error.email && { borderColor: "red", borderWidth: 2 }]}
             placeholder="Email"
             onSubmitEditing={() => { this.focusNextField('two'); }}
             returnKeyType="next"
@@ -97,7 +97,7 @@ class Signup extends React.Component {
             getRef={(input) => { this.inputs['one'] = input; }}
           />
           <Input
-            inputStyle={[styles.input, error.password ? { borderColor: "red", borderWidth: 2 } : null]}
+            inputStyle={[styles.input, error.password && { borderColor: "red", borderWidth: 2 }]}
             placeholder="Password"
             secureTextEntry
             onSubmitEditing={() => { this.focusNextField('three'); }}
@@ -106,7 +106,7 @@ class Signup extends React.Component {
             getRef={(input) => { this.inputs['two'] = input; }}
           />
           <Input
-            inputStyle={[styles.input, error.passwordConfirm ? { borderColor: "red", borderWidth: 2 } : null]}
+            inputStyle={[styles.input, error.passwordConfirm && { borderColor: "red", borderWidth: 2 }]}
             placeholder="Confirm password"
             secureTextEntry
             onChangeText={this.handleInputChange('passwordConfirm')}
