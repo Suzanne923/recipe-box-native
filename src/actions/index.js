@@ -11,10 +11,11 @@ import {
   FETCH_RECIPES,
   FETCH_RECIPE,
   SEARCH_RECIPES,
-  RESET_SEARCH
+  RESET_SEARCH,
+  DONE
 } from './types';
 
-const ROOT_URL = "https://calm-falls-74034.herokuapp.com";
+const ROOT_URL = "http://ec2-54-165-226-10.compute-1.amazonaws.com:8080";
 
 export function navigate(screen, prop) {
   const navProp = prop !== '' ? prop : '';
@@ -152,6 +153,19 @@ export function searchRecipes(query) {
 
 export function resetSearch() {
   return { type: RESET_SEARCH };
+}
+
+
+export function uploadImage(formData) {
+  return async (dispatch) => {
+    dispatch({ type: LOADING });
+    try {
+      await axios.post(`${ROOT_URL}/upload`, formData);
+      dispatch({ type: DONE });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 }
 
 // function recipesError();

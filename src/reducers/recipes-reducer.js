@@ -3,7 +3,8 @@ import {
   FETCH_RECIPES,
   FETCH_RECIPE,
   SEARCH_RECIPES,
-  RESET_SEARCH
+  RESET_SEARCH,
+  DONE
 } from '../actions/types';
 
 export const initialState = {
@@ -26,6 +27,8 @@ export default function (state = initialState, action) {
   switch (action.type) {
     case LOADING:
       return { ...state, isLoading: true };
+    case DONE:
+      return { ...state, isLoading: false };
     case FETCH_RECIPES:
       return {
         ...state,
