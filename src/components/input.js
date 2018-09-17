@@ -8,6 +8,8 @@ class Input extends React.Component {
       value,
       inputStyle,
       placeholder,
+      keyboardType,
+      multiline,
       onChangeText,
       secureTextEntry,
       autoCorrect,
@@ -26,6 +28,8 @@ class Input extends React.Component {
           value={value}
           style={inputStyle}
           placeholder={placeholder}
+          keyboardType={keyboardType}
+          multiline={multiline}
           onChangeText={onChangeText}
           secureTextEntry={secureTextEntry}
           autoCorrect={autoCorrect}
@@ -43,9 +47,11 @@ class Input extends React.Component {
 }
 
 Input.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.string.isRequired,
   inputStyle: PropTypes.any.isRequired,
-  placeholder: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  keyboardType: PropTypes.string,
+  multiline: PropTypes.bool,
   onChangeText: PropTypes.func.isRequired,
   secureTextEntry: PropTypes.bool,
   autoCorrect: PropTypes.bool,
@@ -59,7 +65,9 @@ Input.propTypes = {
 };
 
 Input.defaultProps = {
-  value: '',
+  placeholder: "",
+  keyboardType: "default",
+  multiline: false,
   secureTextEntry: false,
   autoCorrect: false,
   autoCapitalize: "none",

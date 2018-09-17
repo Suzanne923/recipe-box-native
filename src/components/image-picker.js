@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, TouchableOpacity, Image, Button, Platform } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-picker';
 // eslint-disable-next-line
 import ImageResizer from 'react-native-image-resizer';
-import * as actions from '../../actions';
+import * as actions from '../actions';
 
 class ImageUpload extends React.Component {
   constructor(props) {
@@ -39,7 +39,7 @@ class ImageUpload extends React.Component {
   };
 
   openImagePicker = () => {
-    const { maxHeight, maxWidth } = this.props;
+    const { maxHeight, maxWidth, setImage } = this.props;
     const { format } = this.state;
 
     ImagePicker.showImagePicker(this.options, async (response) => {
@@ -47,11 +47,13 @@ class ImageUpload extends React.Component {
       const { originalRotation } = response;
 
       if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
+        return console.log('User cancelled image picker');
+      }
+      if (response.error) {
+        return console.log('ImagePicker Error: ', response.error);
+      }
+      if (response.customButton) {
+        return console.log('User tapped custom button: ', response.customButton);
       }
 
       if (originalRotation === 90) {
@@ -75,10 +77,8 @@ class ImageUpload extends React.Component {
       }
 
       const source = resizedImageUri.uri;
-      this.setState({
-        imageSource: source
-        // image: resizedImageUri
-      });
+      this.setState({ imageSource: source });
+      setImage(resizedImageUri);
     });
   }
 
@@ -95,7 +95,8 @@ class ImageUpload extends React.Component {
   } */
 
   render() {
-    const { imageSource, maxHeight, maxWidth } = this.state;
+    const { imageSource } = this.state;
+    const { maxHeight, maxWidth } = this.props;
 
     return (
       <View style={styles.container}>
@@ -106,7 +107,6 @@ class ImageUpload extends React.Component {
             source={{ uri: imageSource }}
           />
         </TouchableOpacity>
-        <Button title="submit" onPress={this.handleUpload}>Submit</Button>
       </View>
     );
   }
@@ -114,7 +114,8 @@ class ImageUpload extends React.Component {
 
 ImageUpload.propTypes = {
   maxHeight: PropTypes.number.isRequired,
-  maxWidth: PropTypes.number.isRequired
+  maxWidth: PropTypes.number.isRequired,
+  setImage: PropTypes.func.isRequired
 };
 
 export default connect(null, actions)(ImageUpload);

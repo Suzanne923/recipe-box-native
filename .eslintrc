@@ -54,6 +54,8 @@
     "consistent-return": "off",
     "max-len": ["error", { "code": 120, "ignoreComments": true, "ignoreUrls": true }],
     "no-console": "off",
+    "no-param-reassign": "off",
+    "no-plusplus": "off",
     "prefer-destructuring": "off"
   }
 }

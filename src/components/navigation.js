@@ -7,13 +7,14 @@ import screens from '../screens';
 
 import Loading from './loading';
 import Home from './home';
-import Signin from './auth/signin';
+// import Signin from './auth/signin';
 import Signup from './auth/signup';
 import Header from './header';
 import Menu from './menu';
 import Profile from './profile';
 import ViewRecipe from './view-recipe';
 import Search from './search';
+import AddRecipe from './add-recipe';
 
 class Navigation extends React.Component {
   constructor() {
@@ -59,7 +60,7 @@ class Navigation extends React.Component {
       case screens.SEARCH:
         return <Search setRecipe={(newId) => { this.setRecipe(newId); }} />;
       case screens.SIGNIN:
-        return <Signin />;
+        return <AddRecipe />;
       case screens.SIGNUP:
         return <Signup />;
       case screens.DEFAULT:
