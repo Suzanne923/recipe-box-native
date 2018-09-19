@@ -121,7 +121,7 @@ ImageUpload.propTypes = {
 export default connect(null, actions)(ImageUpload);
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: "white" },
+  container: { borderWidth: 1, borderColor: "#ccc" },
   text: {
     color: "#333",
     fontSize: 16,
