@@ -20,7 +20,7 @@ class AddRecipe extends React.Component {
       instructions: ''
     };
 
-    this.ingredients = [];
+    this.inputs = {};
   }
 
   addIngredientInput = () => {
@@ -35,6 +35,10 @@ class AddRecipe extends React.Component {
           ingredient: ''
         }]
     });
+  }
+
+  focusNextField(id) {
+    this.inputs[id].focus();
   }
 
   setImage = image => this.setState({ image });
@@ -73,30 +77,41 @@ class AddRecipe extends React.Component {
   }
 
   handleSubmit = () => {
-    const { image, title, tags, ingredients, instructions } = this.state;
-    const newRecipe = { title, tags, ingredients, instructions };
+    const { image } = this.state;
+    let { title, tags, ingredients, instructions } = this.state;
+    title = title.charAt(0).toUpperCase() + title.substr(1);
+    tags = tags.split(', ').map(item => item.charAt(0).toLowerCase() + item.substr(1));
+    instructions = instructions.split(/[\n\r]/g).map(item => item.charAt(0).toUpperCase() + item.substr(1));
+    ingredients = ingredients.map((ingredient) => {
+      ingredient.measure = ingredient.measure.charAt(0).toLowerCase() + ingredient.measure.substr(1);
+      delete ingredient.key;
+      return ingredient;
+    });
+    const newRecipe = { image_url: image, title, tags, ingredients, instructions };
     const formData = new FormData();
 
-    image.type = 'image/jpeg';
-    formData.append('recipe-image', image);
-    newRecipe.image = formData;
-
     Object.keys(newRecipe).forEach((item) => {
-      if (!newRecipe[item] || !newRecipe[item].length) {
+      if (item === "image_url" && !newRecipe[item].path) {
+        return Alert.alert(`Add a recipe image!`);
+      }
+      if (item !== "image_url" && (!newRecipe[item] || !newRecipe[item].length)) {
         return Alert.alert(`${item} is empty!`);
       }
     });
 
+    image.type = 'image/jpeg';
+    formData.append('recipe-image', image);
+    newRecipe.image_url = formData;
+
     console.log(newRecipe);
   }
 
-  renderInput = (value, style, placeholder, property, autoCapitalize, multiline = false) => (
+  renderInput = (value, style, placeholder, property, multiline = false) => (
     <Input
       value={value}
       inputStyle={style}
       placeholder={placeholder}
       multiline={multiline}
-      autoCapitalize={autoCapitalize}
       onChangeText={this.handleInputChange(property)}
       placeholderTextColor="#555"
       underlineColorAndroid="#a92b00"
@@ -112,6 +127,8 @@ class AddRecipe extends React.Component {
           value={ingredient.amount}
           inputStyle={[styles.textInput, { width: (DEVICE_WIDTH / 15) * 2, marginRight: 1, marginTop: 0 }]}
           placeholder="#"
+          onSubmitEditing={() => { this.focusNextField((i * 3) + 2); }}
+          returnKeyType="next"
           keyboardType="numeric"
           onChangeText={this.handleIngredientInputChange(i, 'amount')}
           placeholderTextColor="#666666"
@@ -120,9 +137,11 @@ class AddRecipe extends React.Component {
           value={ingredient.measure}
           inputStyle={[styles.textInput, { width: (DEVICE_WIDTH / 15) * 3, marginRight: 1, marginTop: 0 }]}
           placeholder="Measure"
+          onSubmitEditing={() => { this.focusNextField((i * 3) + 3); }}
+          returnKeyType="next"
           onChangeText={this.handleIngredientInputChange(i, 'measure')}
           placeholderTextColor="#666666"
-          onSubmitEditing={() => console.log('pressed enter')}
+          getRef={(input) => { this.inputs[(i * 3) + 2] = input; }}
         />
         <Input
           value={ingredient.ingredient}
@@ -130,6 +149,7 @@ class AddRecipe extends React.Component {
           placeholder="Ingredient"
           onChangeText={this.handleIngredientInputChange(i, 'ingredient')}
           placeholderTextColor="#666666"
+          getRef={(input) => { this.inputs[(i * 3) + 3] = input; }}
         />
         <TouchableOpacity
           style={[styles.button, { width: DEVICE_WIDTH / 15, marginTop: 0, borderRadius: 0 }]}
@@ -158,14 +178,12 @@ class AddRecipe extends React.Component {
           [styles.textInput, { height: 50 }],
           "Enter a title for your recipe",
           "title",
-          "sentences"
         )}
         {this.renderInput(
           tags,
           [styles.textInput, { height: 50 }],
           "Separate your tags with a comma",
           "tags",
-          "none"
         )}
         {this.renderIngredientInputs()}
         <TouchableOpacity
@@ -181,7 +199,6 @@ class AddRecipe extends React.Component {
           [styles.textInput, { marginLeft: 10, marginRight: 10 }],
           "Write each instruction on a new line",
           "instructions",
-          "sentences",
           true
         )}
         <TouchableOpacity style={styles.button} onPress={this.handleSubmit} activeOpacity={0.5}>
