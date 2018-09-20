@@ -12,6 +12,7 @@ import {
   FETCH_RECIPE,
   SEARCH_RECIPES,
   RESET_SEARCH,
+  IMAGE_SUBMITTED,
   DONE
 } from './types';
 
@@ -156,12 +157,29 @@ export function resetSearch() {
 }
 
 
-export function uploadImage(formData) {
+export function uploadImage(formData, callback) {
   return async (dispatch) => {
     dispatch({ type: LOADING });
     try {
-      await axios.post(`${ROOT_URL}/upload`, formData);
+      const response = await axios.post(`${ROOT_URL}/upload`, formData);
+      const imageUrl = `${ROOT_URL}/public/${response.data.file.filename}`;
+      dispatch({
+        type: IMAGE_SUBMITTED,
+        payload: imageUrl
+      });
+      callback(imageUrl);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
+export function addRecipe(recipeData, callback) {
+  return async (dispatch) => {
+    try {
+      await axios.post(`${ROOT_URL}/recipes`, { data: recipeData });
       dispatch({ type: DONE });
+      callback();
     } catch (e) {
       console.log(e);
     }

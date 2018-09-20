@@ -10,4 +10,5 @@ export const FETCH_RECIPES = 'fetch-recipes';
 export const FETCH_RECIPE = 'fetch-recipe';
 export const SEARCH_RECIPES = 'search-recipes';
 export const RESET_SEARCH = 'reset-search';
+export const IMAGE_SUBMITTED = 'image-submitted';
 export const DONE = 'done';

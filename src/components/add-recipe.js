@@ -1,8 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { StyleSheet, Dimensions, View, Text, TouchableOpacity, Alert } from 'react-native';
 import FormData from 'form-data';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
+import screens from '../screens';
+import * as actions from '../actions';
 import ImagePicker from './image-picker';
 import Input from './input';
 
@@ -32,13 +36,37 @@ class AddRecipe extends React.Component {
           key: ingredientCounter++,
           amount: '',
           measure: '',
-          ingredient: ''
+          name: ''
         }]
     });
   }
 
   focusNextField(id) {
     this.inputs[id].focus();
+  }
+
+  validateSubmit = (recipeData) => {
+    let validated = true;
+    Object.keys(recipeData).forEach((item) => {
+      if (item === "image_url" && !recipeData[item].path) {
+        Alert.alert(`Add a recipe image!`);
+        validated = false;
+      }
+      if (item === "ingredients") {
+        recipeData[item].forEach((ingredient) => {
+          if (!ingredient.amount || !ingredient.measure || !ingredient.name) {
+            Alert.alert(`Give an amount, measure and name for each ingredient!`);
+            validated = false;
+          }
+        });
+      }
+      if (item !== "image_url" && (!recipeData[item] || !recipeData[item].length)) {
+        Alert.alert(`${item} is empty!`);
+        validated = false;
+      }
+    });
+
+    return validated;
   }
 
   setImage = image => this.setState({ image });
@@ -77,33 +105,30 @@ class AddRecipe extends React.Component {
   }
 
   handleSubmit = () => {
-    const { image } = this.state;
-    let { title, tags, ingredients, instructions } = this.state;
-    title = title.charAt(0).toUpperCase() + title.substr(1);
-    tags = tags.split(', ').map(item => item.charAt(0).toLowerCase() + item.substr(1));
-    instructions = instructions.split(/[\n\r]/g).map(item => item.charAt(0).toUpperCase() + item.substr(1));
-    ingredients = ingredients.map((ingredient) => {
-      ingredient.measure = ingredient.measure.charAt(0).toLowerCase() + ingredient.measure.substr(1);
-      delete ingredient.key;
-      return ingredient;
-    });
+    const { uploadImage, addRecipe, navigate } = this.props;
+    const { image, title, tags, ingredients, instructions } = this.state;
     const newRecipe = { image_url: image, title, tags, ingredients, instructions };
-    const formData = new FormData();
 
-    Object.keys(newRecipe).forEach((item) => {
-      if (item === "image_url" && !newRecipe[item].path) {
-        return Alert.alert(`Add a recipe image!`);
-      }
-      if (item !== "image_url" && (!newRecipe[item] || !newRecipe[item].length)) {
-        return Alert.alert(`${item} is empty!`);
-      }
-    });
+    if (this.validateSubmit(newRecipe)) {
+      newRecipe.title = title.charAt(0).toUpperCase() + title.substr(1);
+      newRecipe.tags = tags.split(', ').map(item => item.charAt(0).toLowerCase() + item.substr(1));
+      newRecipe.instructions = instructions.split(/[\n\r]/g).map(item => item.charAt(0).toUpperCase() + item.substr(1));
+      newRecipe.ingredients = ingredients.map((ingredient) => {
+        ingredient.measure = ingredient.measure.charAt(0).toLowerCase() + ingredient.measure.substr(1);
+        delete ingredient.key;
+        return ingredient;
+      });
+      const formData = new FormData();
 
-    image.type = 'image/jpeg';
-    formData.append('recipe-image', image);
-    newRecipe.image_url = formData;
+      image.type = 'image/jpeg';
+      formData.append('recipe-image', image);
+      newRecipe.image_url = formData;
 
-    console.log(newRecipe);
+      uploadImage(formData, (imageUrl) => {
+        newRecipe.image_url = imageUrl;
+        addRecipe(newRecipe, () => navigate(screens.HOME));
+      });
+    }
   }
 
   renderInput = (value, style, placeholder, property, multiline = false) => (
@@ -144,10 +169,10 @@ class AddRecipe extends React.Component {
           getRef={(input) => { this.inputs[(i * 3) + 2] = input; }}
         />
         <Input
-          value={ingredient.ingredient}
+          value={ingredient.name}
           inputStyle={[styles.textInput, { width: (DEVICE_WIDTH / 15) * 9, marginRight: 1, marginTop: 0 }]}
           placeholder="Ingredient"
-          onChangeText={this.handleIngredientInputChange(i, 'ingredient')}
+          onChangeText={this.handleIngredientInputChange(i, 'name')}
           placeholderTextColor="#666666"
           getRef={(input) => { this.inputs[(i * 3) + 3] = input; }}
         />
@@ -209,7 +234,13 @@ class AddRecipe extends React.Component {
   }
 }
 
-export default AddRecipe;
+AddRecipe.propTypes = {
+  uploadImage: PropTypes.func.isRequired,
+  addRecipe: PropTypes.func.isRequired,
+  navigate: PropTypes.func.isRequired
+};
+
+export default connect(null, actions)(AddRecipe);
 
 const styles = StyleSheet.create({
   container: {

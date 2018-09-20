@@ -4,6 +4,7 @@ import {
   FETCH_RECIPE,
   SEARCH_RECIPES,
   RESET_SEARCH,
+  IMAGE_SUBMITTED,
   DONE
 } from '../actions/types';
 
@@ -57,6 +58,11 @@ export default function (state = initialState, action) {
         isLoading: false,
         searchResults: [],
         error: ''
+      };
+    case IMAGE_SUBMITTED:
+      return {
+        ...state,
+        recipeImage: action.payload
       };
     default:
       return state;
