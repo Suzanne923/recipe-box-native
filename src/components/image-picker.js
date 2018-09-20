@@ -1,16 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, TouchableOpacity, Image, Platform } from 'react-native';
-import { connect } from 'react-redux';
 import ImagePicker from 'react-native-image-picker';
 // eslint-disable-next-line
 import ImageResizer from 'react-native-image-resizer';
-import * as actions from '../actions';
 
-class ImageUpload extends React.Component {
+export default class ImageUpload extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       format: 'JPEG',
       imageSource: 'http://ec2-54-165-226-10.compute-1.amazonaws.com:8080/public/placeholder.png'
@@ -82,18 +79,6 @@ class ImageUpload extends React.Component {
     });
   }
 
-  /* handleUpload = () => {
-    const { image } = this.state;
-    const { uploadImage } = this.props;
-
-    if (image) {
-      const formData = new FormData();
-      image.type = 'image/jpeg';
-      formData.append('recipe-image', image);
-      uploadImage(formData);
-    }
-  } */
-
   render() {
     const { imageSource } = this.state;
     const { maxHeight, maxWidth } = this.props;
@@ -117,8 +102,6 @@ ImageUpload.propTypes = {
   maxWidth: PropTypes.number.isRequired,
   setImage: PropTypes.func.isRequired
 };
-
-export default connect(null, actions)(ImageUpload);
 
 const styles = StyleSheet.create({
   container: { borderWidth: 1, borderColor: "#ccc" },

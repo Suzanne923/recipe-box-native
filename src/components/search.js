@@ -54,8 +54,7 @@ class Search extends React.Component {
 
     return searchResults.length ? (
       <View style={styles.searchContainer}>
-        <Text style={styles.text}>
-          Results for
+        <Text style={styles.text}>Results for
           <Text style={{ fontFamily: "OpenSans-Italic" }}>{`'${queryString}'`}</Text>
         </Text>
         {

@@ -33,12 +33,7 @@ class Signup extends React.Component {
   }
 
   validate = () => {
-    const {
-      email,
-      password,
-      passwordConfirm,
-      error
-    } = this.state;
+    const { email, password, passwordConfirm, error } = this.state;
 
     ["email", "password", "passwordConfirm"].forEach((item) => {
       // eslint-disable-next-line
@@ -62,10 +57,7 @@ class Signup extends React.Component {
   }
 
   handleSubmit = () => {
-    const {
-      signupUser,
-      navigate
-    } = this.props;
+    const { signupUser, navigate } = this.props;
     const { email, password } = this.state;
 
     signupUser({ email, password }, () => { navigate(screens.HOME); });
@@ -76,17 +68,8 @@ class Signup extends React.Component {
   }
 
   render() {
-    const {
-      isLoading,
-      screen,
-      navigate
-    } = this.props;
-    const {
-      email,
-      password,
-      passwordConfirm,
-      error
-    } = this.state;
+    const { isLoading, screen, navigate } = this.props;
+    const { email, password, passwordConfirm, error } = this.state;
 
     return (
       <View>

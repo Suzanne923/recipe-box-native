@@ -8,11 +8,7 @@ import screens from '../screens';
 
 class Profile extends React.Component {
   navigateToRandomRecipe = () => {
-    const {
-      navigate,
-      recipes,
-      setRecipe
-    } = this.props;
+    const { navigate, recipes, setRecipe } = this.props;
 
     const randomRecipe = recipes[Math.floor(Math.random() * recipes.length)];
     setRecipe(randomRecipe.id);

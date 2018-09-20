@@ -73,11 +73,7 @@ class Navigation extends React.Component {
   }
 
   render() {
-    const {
-      navigate,
-      navigation: { screen },
-      authenticated
-    } = this.props;
+    const { navigate, navigation: { screen }, authenticated } = this.props;
 
     return (
       <View style={styles.container}>

@@ -2,11 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
 
-const Icon = ({
-  style,
-  onPress,
-  children
-}) => (
+const Icon = ({ style, onPress, children }) => (
   <TouchableOpacity style={style} onPress={onPress}>
     {children}
   </TouchableOpacity>

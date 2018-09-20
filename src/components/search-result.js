@@ -2,14 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
-const SearchResult = ({
-  i,
-  id,
-  title,
-  tags,
-  ingredients,
-  onPress
-}) => (
+const SearchResult = ({ i, id, title, tags, ingredients, onPress }) => (
   <View>
     <TouchableOpacity onPress={() => onPress(id)} underlayColor="rgba(255, 255, 255, 0.2)">
       <View style={styles.container}>

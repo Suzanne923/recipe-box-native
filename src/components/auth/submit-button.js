@@ -42,10 +42,7 @@ export default class SubmitButton extends React.Component {
   }
 
   handlePress = () => {
-    const {
-      onSubmit,
-      validate
-    } = this.props;
+    const { onSubmit, validate } = this.props;
     const validated = validate();
 
     if (validated) {

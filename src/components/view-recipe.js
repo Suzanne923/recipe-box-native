@@ -11,11 +11,7 @@ import screens from '../screens';
 
 class ViewRecipe extends React.Component {
   componentWillMount() {
-    const {
-      fetchRecipe,
-      id,
-      recipe
-    } = this.props;
+    const { fetchRecipe, id, recipe } = this.props;
 
     if (recipe.id !== id) {
       fetchRecipe(id);

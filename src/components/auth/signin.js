@@ -44,11 +44,7 @@ class Signin extends React.Component {
   }
 
   validate = () => {
-    const {
-      email,
-      password,
-      error
-    } = this.state;
+    const { email, password, error } = this.state;
 
     ["email", "password"].forEach((item) => {
       // eslint-disable-next-line
@@ -67,11 +63,7 @@ class Signin extends React.Component {
   }
 
   handleInputChange = property => (value) => {
-    const {
-      email,
-      password,
-      error
-    } = this.state;
+    const { email, password, error } = this.state;
 
     this.setState({ [property]: value });
 
@@ -97,17 +89,8 @@ class Signin extends React.Component {
   }
 
   render() {
-    const {
-      isLoading,
-      navigate,
-      screen,
-      submitError
-    } = this.props;
-    const {
-      email,
-      password,
-      error
-    } = this.state;
+    const { isLoading, navigate, screen, submitError } = this.props;
+    const { email, password, error } = this.state;
 
     return (
       <View>

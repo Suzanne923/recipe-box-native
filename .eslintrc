@@ -56,6 +56,7 @@
     "no-console": "off",
     "no-param-reassign": "off",
     "no-plusplus": "off",
-    "prefer-destructuring": "off"
+    "prefer-destructuring": "off",
+    "linebreak-style": "off"
   }
 }
