@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Entypo from 'react-native-vector-icons/Entypo';
 import screens from '../screens';
 import MenuButton from './menu-button';
 
@@ -16,6 +17,9 @@ const Menu = ({ onPress }) => (
     </MenuButton>
     <MenuButton onPress={() => { onPress(screens.PROFILE); }}>
       <FontAwesome name="user-circle" size={36} color="white" />
+    </MenuButton>
+    <MenuButton onPress={() => { onPress(screens.ADDRECIPE); }}>
+      <Entypo name="plus" size={38} color="white" />
     </MenuButton>
   </View>
 );

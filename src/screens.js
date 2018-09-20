@@ -5,5 +5,6 @@ export default {
   PROFILE: 4,
   RECIPE: 5,
   SEARCH: 6,
-  DEFAULT: 7
+  ADDRECIPE: 7,
+  DEFAULT: 8
 };
