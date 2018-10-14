@@ -13,7 +13,9 @@ import {
   SEARCH_RECIPES,
   RESET_SEARCH,
   IMAGE_SUBMITTED,
-  DONE
+  DONE,
+  LIKE_RECIPE,
+  FETCH_LIKED_RECIPES
 } from './types';
 
 const ROOT_URL = "http://ec2-54-165-226-10.compute-1.amazonaws.com:8080";
@@ -34,10 +36,11 @@ export function signinUser({ email, password }, callback) {
     dispatch({ type: LOADING });
     try {
       const response = await axios.post(`${ROOT_URL}/signin`, { email, password });
-      const token = response.data.token;
+      const { id, token } = response.data;
       dispatch({
         type: AUTH_USER,
         email,
+        id,
         token
       });
       await AsyncStorage.setItem('recipeToken', token);
@@ -74,9 +77,11 @@ export function fetchUser(token, callback) {
     dispatch({ type: LOADING });
     try {
       const response = await axios.get(`${ROOT_URL}/authenticate`, { headers: { authorization: token } });
+      const { id, email } = response.data;
       dispatch({
         type: AUTH_USER,
-        email: response.data.email,
+        email,
+        id,
         token
       });
       callback();
@@ -180,6 +185,36 @@ export function addRecipe(recipeData, callback) {
       await axios.post(`${ROOT_URL}/recipes`, { data: recipeData });
       dispatch({ type: DONE });
       callback();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
+export function likeRecipe(recipeId, userId) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`${ROOT_URL}/like`, { recipeId, userId });
+      dispatch({
+        type: LIKE_RECIPE,
+        id: recipeId,
+        payload: response.data.liked
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
+export function fetchLikedRecipes() {
+  return async (dispatch) => {
+    dispatch({ type: LOADING });
+    try {
+      const response = await axios.get(`${ROOT_URL}/liked`);
+      dispatch({
+        type: FETCH_LIKED_RECIPES,
+        payload: response.data.map(item => item.recipe_id)
+      });
     } catch (e) {
       console.log(e);
     }

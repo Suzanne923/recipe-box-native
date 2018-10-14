@@ -12,3 +12,5 @@ export const SEARCH_RECIPES = 'search-recipes';
 export const RESET_SEARCH = 'reset-search';
 export const IMAGE_SUBMITTED = 'image-submitted';
 export const DONE = 'done';
+export const LIKE_RECIPE = 'like_recipe';
+export const FETCH_LIKED_RECIPES = 'fetch-liked-recipes';

@@ -25,6 +25,7 @@ export default function (state = initialState, action) {
         authenticated:
         true,
         error: '',
+        id: action.id,
         email: action.email,
         token: action.token
       };

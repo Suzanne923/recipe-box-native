@@ -10,11 +10,13 @@ import RecipeItem from './recipe-item';
 
 class Home extends React.Component {
   componentDidMount() {
-    const { fetchRecipes, newFetch } = this.props;
+    const { fetchRecipes, newFetch, fetchLikedRecipes } = this.props;
 
     if (newFetch) {
       fetchRecipes();
     }
+
+    fetchLikedRecipes();
   }
 
   navigateToRecipe = (id) => {
@@ -24,13 +26,21 @@ class Home extends React.Component {
     navigate(screens.RECIPE);
   }
 
+  likeRecipe = (id) => {
+    const { likeRecipe, userId } = this.props;
+
+    likeRecipe(id, userId);
+  }
+
   render() {
-    const { recipes, isLoading } = this.props;
+    const { recipes, isLoading, likedRecipes } = this.props;
     const recipeList = recipes.map(recipe => (
       <RecipeItem
         key={recipe.id}
         recipe={recipe}
         onPress={() => { this.navigateToRecipe(recipe.id); }}
+        onLike={(id) => { this.likeRecipe(id); }}
+        isLiked={likedRecipes.indexOf(recipe.id) > -1}
       />
     ));
 
@@ -49,14 +59,20 @@ Home.propTypes = {
   navigate: PropTypes.func.isRequired,
   setRecipe: PropTypes.func.isRequired,
   recipes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isLoading: PropTypes.bool.isRequired
+  isLoading: PropTypes.bool.isRequired,
+  likeRecipe: PropTypes.func.isRequired,
+  userId: PropTypes.number.isRequired,
+  likedRecipes: PropTypes.arrayOf(PropTypes.number).isRequired,
+  fetchLikedRecipes: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => ({
   setRecipe: ownProps.setRecipe,
   newFetch: state.recipes.newFetch,
   recipes: state.recipes.storedRecipes,
-  isLoading: state.recipes.isLoading
+  isLoading: state.recipes.isLoading,
+  userId: state.auth.id,
+  likedRecipes: state.recipes.likedRecipes
 });
 
 export default connect(mapStateToProps, actions)(Home);

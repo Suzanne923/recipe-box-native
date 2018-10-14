@@ -5,7 +5,9 @@ import {
   SEARCH_RECIPES,
   RESET_SEARCH,
   IMAGE_SUBMITTED,
-  DONE
+  DONE,
+  LIKE_RECIPE,
+  FETCH_LIKED_RECIPES
 } from '../actions/types';
 
 export const initialState = {
@@ -21,7 +23,8 @@ export const initialState = {
     image_url: null
   },
   searchResults: [],
-  error: ''
+  error: '',
+  likedRecipes: []
 };
 
 export default function (state = initialState, action) {
@@ -64,6 +67,14 @@ export default function (state = initialState, action) {
         ...state,
         recipeImage: action.payload
       };
+    case LIKE_RECIPE: {
+      const likedRecipes = (action.payload === 1
+        ? [...state.likedRecipes, action.id]
+        : state.likedRecipes.filter(id => id !== action.id));
+      return { ...state, likedRecipes };
+    }
+    case FETCH_LIKED_RECIPES:
+      return { ...state, likedRecipes: action.payload };
     default:
       return state;
   }
